@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Emissions Calculators</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <style>
+        body {
+            background-color: #f4f4f9;
+            font-family: 'Arial', sans-serif;
+        }
+        .header {
+            background-color: #28a745; /* Bootstrap green */
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px; /* Adjusted for button positioning */
+            position: relative;
+        }
+        .container {
+            padding-top: 20px;
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .btn-primary {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+        .btn-primary:hover {
+            background-color: #004085;
+            border-color: #003366;
+        }
+        #refreshButton {
+            position:absolute;
+            top: 100%; /* Positioned below the title block */
+            right: 0;
+            margin-top: 4px; /* 4px space between the header and button */
+            background-color: #dc3545;
+            border-color: #c82333;
+            padding: 5px 10px; /* Padding for button size */
+        }
+        #refreshButton:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+        label {
+            color: #555;
+        }
+        .form-control {
+            background-color: #ffffff;
+            border: 1px solid #ced4da;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        Basic Emissions Reduction Calculator
+        <button id="refreshButton" class="btn btn-danger" onclick="window.location.reload();">Clear All</button>
+    </div>
+    <div class="container">
+        <div class="row">
+            <!-- Rig Emissions Calculator Section -->
+            <div class="col-md-6">
+                <h2>Rig Emissions Calculator</h2>
+                <form id="emissionsForm">
+                    <div class="form-group">
+                        <label for="rigType">Select Rig Type:</label>
+                        <select class="form-control" id="rigType" name="rig_type" onchange="updateRigOptions()">
+                            <option value="">Select Type</option>
+                            <option value="Onshore">Onshore</option>
+                            <option value="Offshore">Offshore</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="rig">Select Rig:</label>
+                        <select class="form-control" id="rig" name="rig_type">
+                        </select>
+                    </div>
+                    <div class="form-group hidden" id="savingsTypeSection">
+                        <label for="savingsType">Select Savings Type:</label>
+                        <select class="form-control" id="savingsType" name="savings_type" onchange="toggleSavingsType()">
+                            <option value="Time">Time</option>
+                            <option value="Fuel">Fuel</option>
+                        </select>
+                    </div>
+                    <div class="form-group hidden" id="timeSection">
+                        <label for="timeHours">Enter Time in Hours:</label>
+                        <input type="number" class="form-control" id="timeHours" name="time_hours">
+                        <label for="timeDays">Enter Time in Days:</label>
+                        <input type="number" class="form-control" id="timeDays" name="time_days">
+                    </div>
+                    <div class="form-group hidden" id="fuelSection">
+                        <label for="fuelUnits">Select Fuel Units:</label>
+                        <select class="form-control" id="fuelUnits" name="fuel_units">
+                            <option value="Gallons">Gallons</option>
+                            <option value="Liters">Liters</option>
+                        </select>
+                        <label for="fuelAmount">Enter Fuel Amount:</label>
+                        <input type="number" class="form-control" id="fuelAmount" name="fuel_amount">
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="submitForm()">Calculate Emissions</button>
+                </form>
+                <div id="results" class="mt-3"></div>
+            </div>
+
+            <!-- Generator Emissions Calculator Section -->
+            <div class="col-md-6">
+                <h2>Generator Emissions Calculator</h2>
+                <form id="generatorForm">
+                    <div class="form-group">
+                        <label for="generatorFuelAmount">Enter Fuel Amount:</label>
+                        <input type="number" class="form-control" id="generatorFuelAmount" name="fuel_amount">
+                    </div>
+                    <div class="form-group">
+                        <label for="generatorFuelUnits">Select Fuel Units:</label>
+                        <select class="form-control" id="generatorFuelUnits" name="fuel_units">
+                            <option value="Gallons">Gallons</option>
+                            <option value="Liters">Liters</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="submitGeneratorForm()">Calculate Emissions</button>
+                </form>
+                <div id="generatorResults" class="mt-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateRigOptions() {
+            var rigType = $('#rigType').val();
+            var rigSelect = $('#rig');
+            rigSelect.empty();
+
+            if (rigType === 'Onshore') {
+                $('#savingsTypeSection').removeClass('hidden');
+                $('#timeSection').removeClass('hidden');
+                $('#fuelSection').addClass('hidden');
+                rigSelect.append(new Option('Onshore Drilling Rig', 'Onshore Drilling Rig'));
+                $('#savingsType').val('Time');
+                toggleSavingsType();
+            } else if (rigType === 'Offshore') {
+                $('#savingsTypeSection').addClass('hidden');
+                $('#timeSection').removeClass('hidden');
+                $('#fuelSection').addClass('hidden');
+                rigSelect.append(new Option('Drillship', 'Drillship'));
+                rigSelect.append(new Option('Semi-Submersible', 'Semi-Submersible'));
+                rigSelect.append(new Option('Jack-up', 'Jack-up'));
+            }
+        }
+
+        function toggleSavingsType() {
+            var savingsType = $('#savingsType').val();
+            if (savingsType === 'Time') {
+                $('#timeSection').removeClass('hidden');
+                $('#fuelSection').addClass('hidden');
+            } else {
+                $('#timeSection').addClass('hidden');
+                $('#fuelSection').removeClass('hidden');
+            }
+        }
+        
+        
+        function submitForm() {
+            var formData = {};
+            $('#emissionsForm').find('input, select').each(function() {
+                formData[this.name] = $(this).val() || '0'; // Ensure no empty values are sent
+            });
+
+            console.log('Sending data:', formData); // Log data being sent
+
+            $.ajax({
+                url: '/calculate',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function(response) {
+                    console.log('Received response:', response); // Log received response
+                    // Check if the response contains the emissions data
+                    if (response && response.CO2e !== undefined && !isNaN(response.CO2e)) {
+                        var resultsHTML = '<h3>Total Emissions:</h3>' +
+                                        '<p>CO2e (mt): ' + parseFloat(response.CO2e).toFixed(6) + '</p>' +
+                                        '<p>CO2 (mt): ' + parseFloat(response.CO2).toFixed(6) + '</p>' +
+                                        '<p>CH4 (mt): ' + parseFloat(response.CH4).toFixed(6) + '</p>' +
+                                        '<p>N2O (mt): ' + parseFloat(response.N2O).toFixed(6) + '</p>';
+                        $('#results').html(resultsHTML);
+                    } else {
+                        $('#results').html('<h3>Error: Invalid data received</h3>'); // Display error if response format is unexpected
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX Error:', status, error); // Log detailed error
+                    $('#results').html('<h3>Error: ' + xhr.responseText + '</h3>');
+                }
+            });
+        }
+
+  
+        
+        function submitGeneratorForm() {
+            var formData = {
+                fuel_amount: $('#generatorFuelAmount').val() || '0',
+                fuel_units: $('#generatorFuelUnits').val() || 'Gallons'
+            };
+
+            $.ajax({
+                url: '/calculate_generator',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function(response) {
+                    var resultsHTML = '<h3>Total Emissions:</h3>' +
+                                      '<p>CO2e (mt): ' + response.CO2e.toFixed(6) + '</p>' +
+                                      '<p>CO2 (mt): ' + response.CO2.toFixed(6) + '</p>' +
+                                      '<p>CH4 (mt): ' + response.CH4.toFixed(6) + '</p>' +
+                                      '<p>N2O (mt): ' + response.N2O.toFixed(6) + '</p>';
+                    $('#generatorResults').html(resultsHTML);
+                },
+                error: function(xhr) {
+                    $('#generatorResults').html('<h3>Error: ' + xhr.responseText + '</h3>');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
