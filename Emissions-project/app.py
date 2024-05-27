@@ -86,6 +86,44 @@ class RigEmissionsCalculator:
 
         return emissions
 
+class Scope1EmissionsCalculator:
+    def __init__(self):
+        self.meta_data = {
+            "Passenger Car": {
+                "co2": 0.175,
+                "ch4": 0.005,
+                "n2o": 0.003,
+            },
+            "Light-Duty Truck": {
+                "co2": 0.955,
+                "ch4": 0.026,
+                "n2o": 0.023,
+            },
+            "Motorcycle": {
+                "co2": 0.377,
+                "ch4": 0.0,
+                "n2o": 0.019,
+            },
+            "Medium- and Heavy-Duty Truck": {
+                "co2": 0.168,
+                "ch4": 15,
+                "n2o": 0.0047,
+            }
+        }
+
+    def calculate_emissions(self, vehicle_type, distance = 0, unit = 'miles'):
+        if unit == 'km':
+            distance = distance/1.609
+        co2 = (distance*self.meta_data[vehicle_type]["co2"]*(1/1000))
+        ch4 = (distance*self.meta_data[vehicle_type]["ch4"]*(1/1000000))
+        n2o = (distance*self.meta_data[vehicle_type]["n2o"]*(1/1000000))
+        return {
+            "CO2 Emissions (mt)": co2,
+            "CH4 Emissions (mt)": ch4,
+            "N2O Emissions (mt)": n2o,
+            "CO2e Emissions (mt)": ((co2*1)+(ch4*28)+(n2o*265))
+        }
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -104,5 +142,23 @@ def calculate():
     )
     return jsonify(result)
 
+@app.route('/calculate_scope1_emissions', methods=['POST'])
+def calculate_scope1_emissions():
+    print("comg")
+    try:
+        data = request.get_json() or {}
+        calculator = Scope1EmissionsCalculator()
+        result = calculator.calculate_emissions(
+            vehicle_type=data.get("vehicle_type"),
+            distance = data.get('distance', 0),
+            unit = data.get('unit', 'miles')
+        )
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({
+            "message": "Something Went Wrong, Please try again",
+            "error": str(e)
+        })
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=True, port=5001)
