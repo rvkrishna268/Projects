@@ -124,6 +124,36 @@ class Scope1EmissionsCalculator:
             "CO2e Emissions (mt)": ((co2*1)+(ch4*28)+(n2o*265))
         }
 
+class Co2MblFuelAMountCalculator:
+    def __init__(self) -> None:
+        self.meta_data = {
+            "Motor Gasoline": {
+                "kg_co2_per_unit": 8.78,
+            },
+            "Diesel Fuel": {
+                "kg_co2_per_unit": 10.21,
+            },
+            "Liquefied Natural Gas (LNG)": {
+                "kg_co2_per_unit": 4.5,
+            },
+            "Ethanol (100%)": {
+                "kg_co2_per_unit": 5.75,
+            },
+            "Biodiesel (100%)": {
+                "kg_co2_per_unit": 9.45,
+            },
+            "Liquefied Petroleum Gases (LPG) (Propane)": {
+                "kg_co2_per_unit": 5.68,
+            },
+        }
+
+    def calculate_emissions(self, fuel_type, fuel_consumption, unit):
+        if unit == 'liter':
+            fuel_consumption /= 3.785
+        return {
+            "metric_ton_co2": fuel_consumption*self.meta_data[fuel_type]["kg_co2_per_unit"]*(1/1000)
+        }
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -144,7 +174,6 @@ def calculate():
 
 @app.route('/calculate_scope1_emissions', methods=['POST'])
 def calculate_scope1_emissions():
-    print("comg")
     try:
         data = request.get_json() or {}
         calculator = Scope1EmissionsCalculator()
@@ -155,6 +184,25 @@ def calculate_scope1_emissions():
         )
         return jsonify(result)
     except Exception as e:
+        print(e)
+        return jsonify({
+            "message": "Something Went Wrong, Please try again",
+            "error": str(e)
+        })
+
+@app.route('/co2_mobile_fuel_amount', methods=['POST'])
+def co2_mobile_fuel_amount():
+    try:
+        data = request.get_json() or {}
+        calculator = Co2MblFuelAMountCalculator()
+        result = calculator.calculate_emissions(
+            fuel_type=data.get("fuel_type"),
+            fuel_consumption = data.get('fuel_consumption', 0),
+            unit = data.get('unit', 'gallons')
+        )
+        return jsonify(result)
+    except Exception as e:
+        print(e)
         return jsonify({
             "message": "Something Went Wrong, Please try again",
             "error": str(e)
