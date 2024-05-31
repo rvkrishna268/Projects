@@ -48,12 +48,7 @@ function submitForm() {
             console.log('Received response:', response); // Log received response
             // Check if the response contains the emissions data
             if (response && response.CO2e !== undefined && !isNaN(response.CO2e)) {
-                var resultsHTML = '<h3>Total Emissions:</h3>' +
-                                '<p>CO2e (mt): ' + parseFloat(response.CO2e).toFixed(6) + '</p>' +
-                                '<p>CO2 (mt): ' + parseFloat(response.CO2).toFixed(6) + '</p>' +
-                                '<p>CH4 (mt): ' + parseFloat(response.CH4).toFixed(6) + '</p>' +
-                                '<p>N2O (mt): ' + parseFloat(response.N2O).toFixed(6) + '</p>';
-                $('#results').html(resultsHTML);
+                displayResults(response, 'results');
             } else {
                 $('#results').html('<h3>Error: Invalid response received from the server.</h3>');
             }
@@ -82,12 +77,7 @@ function submitGeneratorForm() {
             console.log('Received response:', response); // Log received response
             // Check if the response contains the emissions data
             if (response && response.CO2e !== undefined && !isNaN(response.CO2e)) {
-                var resultsHTML = '<h3>Total Emissions:</h3>' +
-                                '<p>CO2e (mt): ' + parseFloat(response.CO2e).toFixed(6) + '</p>' +
-                                '<p>CO2 (mt): ' + parseFloat(response.CO2).toFixed(6) + '</p>' +
-                                '<p>CH4 (mt): ' + parseFloat(response.CH4).toFixed(6) + '</p>' +
-                                '<p>N2O (mt): ' + parseFloat(response.N2O).toFixed(6) + '</p>';
-                $('#generatorResults').html(resultsHTML);
+                displayResults(response, 'generatorResults');
             } else {
                 $('#generatorResults').html('<h3>Error: Invalid response received from the server.</h3>');
             }
@@ -97,4 +87,31 @@ function submitGeneratorForm() {
             $('#generatorResults').html('<h3>Error: Could not reach the server. Please try again later.</h3>');
         }
     });
+}
+
+function displayResults(data, elementId) {
+    var resultsDiv = $('#' + elementId);
+    resultsDiv.empty(); // Clear previous results
+
+    var resultsHTML = `
+        <div class="result-box">
+            <div class="result-label-header">Total CO2e Emissions (mt)</div>
+            <div class="result-value-large">${parseFloat(data.CO2e).toFixed(6)}</div>
+        </div>
+        <div class="result-box result-row">
+            <div class="result-field">
+                <div class="result-label">CO2 (mt):</div>
+                <div class="result-value">${parseFloat(data.CO2).toFixed(6)}</div>
+            </div>
+            <div class="result-field">
+                <div class="result-label">CH4 (mt):</div>
+                <div class="result-value">${parseFloat(data.CH4).toFixed(6)}</div>
+            </div>
+            <div class="result-field">
+                <div class="result-label">N2O (mt):</div>
+                <div class="result-value">${parseFloat(data.N2O).toFixed(6)}</div>
+            </div>
+        </div>`;
+
+    resultsDiv.html(resultsHTML);
 }
