@@ -57,3 +57,63 @@ label {
     width: 50%;
     float: left;
 }
+
+#results {
+    width: 100%;
+}
+
+.result-box {
+    border: 1px solid #f0f0f0;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.result-label-header {
+    background-color: #d3d3d3;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 20px;
+    color: #000;
+    text-align: center;
+}
+
+.result-value-large {
+    padding-top: 10px;
+    color: green;
+    font-weight: bold;
+    font-size: 30px;
+    text-align: center;
+}
+
+.result-row {
+    display: flex; /* Use flexbox to arrange fields in a row */
+    justify-content: space-between; /* Distribute space evenly between fields */
+    border-top: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f0f0f0;
+}
+
+.result-field {
+    flex: 1; /* Make all fields take up equal width */
+    text-align: center; /* Center align the content within each field */
+}
+
+.result-label {
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 5px; /* Add space between label and value */
+}
+
+.result-value {
+    color: green;
+    font-weight: bold;
+}
+
+#generatorResults {
+    width: 100%;
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
