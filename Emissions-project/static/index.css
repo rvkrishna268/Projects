@@ -106,13 +106,17 @@ label {
 }
 
 .result-value {
+    font-weight: bold;
+}
+
+.result-value-1 {
     color: green;
     font-weight: bold;
 }
 
 #generatorResults {
     width: 100%;
-    margin-top: 0;
+    margin-top: 100 !important;
     display: flex;
     flex-direction: column;
     justify-content: center;
