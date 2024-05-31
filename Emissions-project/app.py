@@ -112,16 +112,17 @@ class Scope1EmissionsCalculator:
         }
 
     def calculate_emissions(self, vehicle_type, distance = 0, unit = 'miles'):
+        distance=int(distance)
         if unit == 'km':
             distance = distance/1.609
         co2 = (distance*self.meta_data[vehicle_type]["co2"]*(1/1000))
         ch4 = (distance*self.meta_data[vehicle_type]["ch4"]*(1/1000000))
         n2o = (distance*self.meta_data[vehicle_type]["n2o"]*(1/1000000))
         return {
-            "CO2 Emissions (mt)": co2,
-            "CH4 Emissions (mt)": ch4,
-            "N2O Emissions (mt)": n2o,
-            "CO2e Emissions (mt)": ((co2*1)+(ch4*28)+(n2o*265))
+            "CO2": co2,
+            "CH4": ch4,
+            "N2O": n2o,
+            "CO2e": ((co2*1)+(ch4*28)+(n2o*265))
         }
 
 class Co2MblFuelAMountCalculator:
@@ -158,6 +159,15 @@ class Co2MblFuelAMountCalculator:
 def home():
     return render_template('index.html')
 
+
+@app.route('/page2')
+def page2():
+    return render_template('page2.html')
+
+@app.route('/page3')
+def page3():
+    return render_template('page3.html')
+
 @app.route('/calculate', methods=['POST'])
 def calculate():
     data = request.get_json() or {}
@@ -170,7 +180,7 @@ def calculate():
         fuel_amount=data.get('fuel_amount', '0'),
         fuel_units=data.get('fuel_units', '')
     )
-    return jsonify(result)
+    return jsonify(result)  
 
 @app.route('/calculate_scope1_emissions', methods=['POST'])
 def calculate_scope1_emissions():
@@ -209,4 +219,4 @@ def co2_mobile_fuel_amount():
         })
 
 if __name__ == '__main__':
-    app.run(debug=True, use_reloader=True, port=5001)
+    app.run(debug=True, use_reloader=True, port=5000)
