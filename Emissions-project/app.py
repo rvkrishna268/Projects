@@ -344,13 +344,14 @@ def scope3():
         calculator = Scope3Calculator()
         results = []
         for each_data in data:
-            result = calculator.calculate_emissions(
-                category=each_data.get("category"),
-                vehicle_type = each_data.get('vehicle_type'),
-                unit = each_data.get('unit', 'km'),
-                distance = each_data.get('distance', 0),
-            )
-            results.append(result)
+            if each_data.get("vehicle_type") and each_data.get('unit'):
+                result = calculator.calculate_emissions(
+                    category=each_data.get("category"),
+                    vehicle_type = each_data.get('vehicle_type'),
+                    unit = each_data.get('unit', 'km'),
+                    distance = each_data.get('distance', 0) or 0,
+                )
+                results.append(result)
         summed_data = {key: sum(d[key] for d in results) for key in results[0]}
         print(summed_data)
         return {
