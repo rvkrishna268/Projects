@@ -185,3 +185,87 @@ function displayOnlyCo2Results(data, elementId) {
     `;
     resultsDiv.html(resultsHTML);
 }
+
+function addRow(button) {
+    var row = $(button).closest('tr').clone();
+    row.find('input, select').val('');
+    row.find('button').removeClass('btn-success').addClass('btn-danger').text('-').attr('onclick', 'removeRow(this)');
+    $('#tableBody').append(row);
+}
+
+function removeRow(button) {
+    $(button).closest('tr').remove();
+}
+
+function submitScopeForm() {
+    var formData = [];
+
+    $('#emissionsTable tbody tr').each(function() {
+        var vehicleType = $(this).find('select[name="vehicle_type[]"]').val();
+        var distanceUnit = $(this).find('select[name="distance_unit[]"]').val();
+        var distance = $(this).find('input[name="distance[]"]').val();
+
+        if (vehicleType && distanceUnit && distance) {
+            formData.push({
+                vehicle_type: vehicleType,
+                unit: distanceUnit,
+                distance: parseFloat(distance),
+                category: "upstream"
+            });
+        }
+    });
+
+    console.log('Sending data:', formData);
+
+    $.ajax({
+        url: '/scope3',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(formData),
+        success: function(response) {
+            console.log('Received response:', response);
+            if (response && response.results) {
+                displayResults(response, 'results');
+            } else {
+                $('#results').html('<h3>Error: Invalid response received from the server.</h3>');
+            }
+        },
+        error: function(error) {
+            console.error('Error:', error);
+            $('#results').html('<h3>Error: Could not reach the server. Please try again later.</h3>');
+        }
+    });
+}
+
+function displayResults(data, elementId) {
+    var resultsDiv = $('#' + elementId);
+    resultsDiv.empty();
+
+    var resultsHTML = '<table class="table"><thead><tr><th>CH4 (mt)</th><th>CO2 (mt)</th><th>CO2e (mt)</th><th>NO2 (mt)</th></tr></thead><tbody>';
+    
+    data.results.forEach(function(result) {
+        resultsHTML += `<tr>
+                            <td>${parseFloat(result.CH4).toFixed(8)}</td>
+                            <td>${parseFloat(result.CO2).toFixed(8)}</td>
+                            <td>${parseFloat(result.CO2e).toFixed(8)}</td>
+                            <td>${parseFloat(result.NO2).toFixed(8)}</td>
+                        </tr>`;
+    });
+
+    resultsHTML += '</tbody></table>';
+
+    resultsHTML += `<h3>Total Emissions</h3>
+                    <table class="table">
+                        <thead><tr><th>CH4 (mt)</th><th>CO2 (mt)</th><th>CO2e (mt)</th><th>NO2 (mt)</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td>${parseFloat(data.total.CH4).toFixed(8)}</td>
+                                <td>${parseFloat(data.total.CO2).toFixed(8)}</td>
+                                <td>${parseFloat(data.total.CO2e).toFixed(8)}</td>
+                                <td>${parseFloat(data.total.NO2).toFixed(8)}</td>
+                            </tr>
+                        </tbody>
+                    </table>`;
+
+    resultsDiv.html(resultsHTML);
+}
