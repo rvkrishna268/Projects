@@ -108,11 +108,11 @@ Description of the endpoint.
     - employee_commuting
       - Intercity Rail
       - Commuter Rail
-      - Transit Rail (i.e. Subway, Tram) 
+      - Transit Rail 
       - Bus
-      - Air Travel - Short Haul (< 300 miles) 
-      - Air Travel - Medium Haul (>= 300 miles, < 2300 miles) 
-      - Air Travel - Long Haul (>= 2300 miles) 
+      - Air Travel - Short Haul 
+      - Air Travel - Medium Haul 
+      - Air Travel - Long Haul 
     - upstream
       - Medium- and Heavy-Duty Truck
       - Passenger Car
@@ -120,6 +120,7 @@ Description of the endpoint.
     - downstream
       - Medium- and Heavy-Duty Truck
       - Rail
-      - Waterborne Craft (i.e. Ships, Boats, Barges etc.)
-      - Aircraft (i.e. Airplanes, Helicopters)
+      - Waterborne Craft
+      - Aircraft
+
   

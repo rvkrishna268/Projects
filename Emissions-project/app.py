@@ -111,18 +111,18 @@ class Scope1EmissionsCalculator:
             }
         }
 
-    def calculate_emissions(self, vehicle_type, distance = 0, unit = 'miles'):
-        distance=int(distance)
+    def calculate_emissions(self, vehicle_type, distance=0, unit='miles'):
+        distance = int(distance)
         if unit == 'km':
-            distance = distance/1.609
-        co2 = (distance*self.meta_data[vehicle_type]["co2"]*(1/1000))
-        ch4 = (distance*self.meta_data[vehicle_type]["ch4"]*(1/1000000))
-        n2o = (distance*self.meta_data[vehicle_type]["n2o"]*(1/1000000))
+            distance = distance / 1.609
+        co2 = distance * self.meta_data[vehicle_type]["co2"] * (1 / 1000)
+        ch4 = distance * self.meta_data[vehicle_type]["ch4"] * (1 / 1000000)
+        n2o = distance * self.meta_data[vehicle_type]["n2o"] * (1 / 1000000)
         return {
             "CO2": co2,
             "CH4": ch4,
             "N2O": n2o,
-            "CO2e": ((co2*1)+(ch4*28)+(n2o*265))
+            "CO2e": (co2 + ch4 * 28 + n2o * 265)
         }
 
 class Co2MblFuelAMountCalculator:
@@ -149,11 +149,11 @@ class Co2MblFuelAMountCalculator:
         }
 
     def calculate_emissions(self, fuel_type, fuel_consumption, unit):
-        fuel_consumption=int(fuel_consumption)
+        fuel_consumption = int(fuel_consumption)
         if unit == 'liter':
             fuel_consumption /= 3.785
         return {
-            "metric_ton_co2": fuel_consumption*self.meta_data[fuel_type]["kg_co2_per_unit"]*(1/1000)
+            "metric_ton_co2": fuel_consumption * self.meta_data[fuel_type]["kg_co2_per_unit"] * (1 / 1000)
         }
 
 class Scope3Calculator:
@@ -163,39 +163,37 @@ class Scope3Calculator:
                 "Medium- and Heavy-Duty Truck": {
                     "co2": 1.247,
                     "ch4": 0.011,
-                    "no2": 0.035,
+                    "n2o": 0.035,
                 },
                 "Passenger Car": {
-                    "co2": 1.247,
-                    "ch4": 0.011,
-                    "no2": 0.035,
+                    "co2": 0.175,
+                    "ch4": 0.005,
+                    "n2o": 0.003,
                 },
                 "Light-Duty Truck": {
-                    "co2": 1.247,
-                    "ch4": 0.011,
-                    "no2": 0.035,
-                }
-            },
-            "downstream": {
-                "Medium- and Heavy-Duty Truck": {
-                    "co2": 1.247,
-                    "ch4": 0.011,
-                    "no2": 0.035,
+                    "co2": 0.955,
+                    "ch4": 0.026,
+                    "n2o": 0.023,
+                },
+                "Medium- and Heavy-Duty Truck-ds": {
+                    "co2": 0.168,
+                    "ch4": 15,
+                    "n2o": 0.0047,
                 },
                 "Rail": {
-                    "co2": 1.247,
-                    "ch4": 0.011,
-                    "no2": 0.035,
+                    "co2": 0.022,
+                    "ch4": 0.0017,
+                    "n2o": 0.0005,
                 },
-                "Waterborne Craft (i.e. Ships, Boats, Barges etc.)": {
-                    "co2": 1.247,
-                    "ch4": 0.011,
-                    "no2": 0.035,
+                "Waterborne Craft": {
+                    "co2": 0.082,
+                    "ch4": 0.0326,
+                    "n2o": 0.0021,
                 },
-                "Aircraft (i.e. Airplanes, Helicopters)": {
-                    "co2": 1.247,
-                    "ch4": 0.011,
-                    "no2": 0.035,
+                "Aircraft": {
+                    "co2": 0.905,
+                    "ch4": 0,
+                    "n2o": 0.0279,
                 },
             },
             "business_travel": {
@@ -214,8 +212,6 @@ class Scope3Calculator:
                     "ch4": 0.0,
                     "n2o": 0.019,
                 },
-            },
-            "employee_commuting": {
                 "Intercity Rail": {
                     "co2": 0.113,
                     "ch4": 0.0092,
@@ -226,7 +222,7 @@ class Scope3Calculator:
                     "ch4": 0.0105,
                     "n2o": 26,
                 },
-                "Transit Rail (i.e. Subway, Tram)": {
+                "Transit Rail": {
                     "co2": 0.093,
                     "ch4": 0.0075,
                     "n2o": 10,
@@ -236,17 +232,17 @@ class Scope3Calculator:
                     "ch4": 0.0,
                     "n2o": 0.0021,
                 },
-                "Air Travel - Short Haul (< 300 miles)": {
-                    "co2": 0.201,
+                "Air Travel - Short Haul": {
+                    "co2": 0.207,
                     "ch4": 0.0064,
                     "n2o": 0.0066,
                 },
-                "Air Travel - Medium Haul (>= 300 miles, < 2300 miles)": {
+                "Air Travel - Medium Haul": {
                     "co2": 0.129,
                     "ch4": 0.0006,
                     "n2o": 0.0041,
                 },
-                "Air Travel - Long Haul (>= 2300 miles)": {
+                "Air Travel - Long Haul": {
                     "co2": 0.163,
                     "ch4": 0.0006,
                     "n2o": 0.0052,
@@ -257,23 +253,21 @@ class Scope3Calculator:
     def calculate_emissions(self, category, vehicle_type, unit, distance):
         distance = int(distance)
         if unit == 'km':
-            distance = distance/1.609
-        co2 = distance*(self.meta_data[category][vehicle_type]["co2"])*(1/1000)
-        ch4 = distance*(self.meta_data[category][vehicle_type]["ch4"])*(1/1000000)
-        no2 = distance*(self.meta_data[category][vehicle_type]["no2"])*(1/1000000)
-        co2e = (co2*1)+(ch4*28)+(no2*265)
+            distance = distance / 1.609
+        co2 = distance * (self.meta_data[category][vehicle_type]["co2"]) * (1 / 1000)
+        ch4 = distance * (self.meta_data[category][vehicle_type]["ch4"]) * (1 / 1000000)
+        n2o = distance * (self.meta_data[category][vehicle_type]["n2o"]) * (1 / 1000000)
+        co2e = (co2 * 1) + (ch4 * 28) + (n2o * 265)
         return {
             "CO2": co2,
             "CH4": ch4,
-            "NO2": no2,
+            "N2O": n2o,
             "CO2e": co2e,
         }
-        
 
 @app.route('/')
 def home():
     return render_template('index.html')
-
 
 @app.route('/page2')
 def page2():
@@ -299,7 +293,7 @@ def calculate():
         fuel_amount=data.get('fuel_amount', '0'),
         fuel_units=data.get('fuel_units', '')
     )
-    return jsonify(result)  
+    return jsonify(result)
 
 @app.route('/calculate_scope1_emissions', methods=['POST'])
 def calculate_scope1_emissions():
@@ -308,8 +302,8 @@ def calculate_scope1_emissions():
         calculator = Scope1EmissionsCalculator()
         result = calculator.calculate_emissions(
             vehicle_type=data.get("vehicle_type"),
-            distance = data.get('distance', 0),
-            unit = data.get('unit', 'miles')
+            distance=data.get('distance', 0),
+            unit=data.get('unit', 'miles')
         )
         return jsonify(result)
     except Exception as e:
@@ -317,7 +311,7 @@ def calculate_scope1_emissions():
         return jsonify({
             "message": "Something Went Wrong, Please try again",
             "error": str(e)
-        })
+        }), 500
 
 @app.route('/co2_mobile_fuel_amount', methods=['POST'])
 def co2_mobile_fuel_amount():
@@ -326,8 +320,8 @@ def co2_mobile_fuel_amount():
         calculator = Co2MblFuelAMountCalculator()
         result = calculator.calculate_emissions(
             fuel_type=data.get("fuel_type"),
-            fuel_consumption = data.get('fuel_consumption', 0),
-            unit = data.get('unit', 'gallons')
+            fuel_consumption=data.get('fuel_consumption', 0),
+            unit=data.get('unit', 'gallons')
         )
         return jsonify(result)
     except Exception as e:
@@ -335,35 +329,46 @@ def co2_mobile_fuel_amount():
         return jsonify({
             "message": "Something Went Wrong, Please try again",
             "error": str(e)
-        })
+        }), 500
 
 @app.route('/scope3', methods=['POST'])
 def scope3():
     try:
         data = request.get_json() or []
+        if not data:
+            return jsonify({
+                "message": "No data provided",
+                "error": "Empty input list"
+            }), 400
+
         calculator = Scope3Calculator()
         results = []
         for each_data in data:
             if each_data.get("vehicle_type") and each_data.get('unit'):
                 result = calculator.calculate_emissions(
                     category=each_data.get("category"),
-                    vehicle_type = each_data.get('vehicle_type'),
-                    unit = each_data.get('unit', 'km'),
-                    distance = each_data.get('distance', 0) or 0,
+                    vehicle_type=each_data.get('vehicle_type'),
+                    unit=each_data.get('unit', 'km'),
+                    distance=each_data.get('distance', 0) or 0,
                 )
                 results.append(result)
+
+        if not results:
+            return jsonify({
+                "message": "No valid results to process",
+                "error": "Empty results list"
+            }), 400
+
         summed_data = {key: sum(d[key] for d in results) for key in results[0]}
-        print(summed_data)
-        return {
+        return jsonify({
             "results": results,
             "total": summed_data
-        }
+        })
     except Exception as e:
-        print(e)
         return jsonify({
             "message": "Something Went Wrong, Please try again",
             "error": str(e)
-        })
+        }), 500
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=True, port=8080)
