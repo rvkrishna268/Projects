@@ -20,27 +20,6 @@ function updateRigOptions() {
     }
 }
 
-// function updateVehicleOptions() {
-//     var vehicleType = $('#vehicleType').val();
-//     vehicleSelect.empty();
-
-//     if (vehicleType === 'Onshore') {
-//         $('#savingsTypeSection').removeClass('hidden');
-//         $('#timeSection').removeClass('hidden');
-//         $('#fuelSection').addClass('hidden');
-//         rigSelect.append(new Option('Onshore Drilling Rig', 'Onshore Drilling Rig'));
-//         $('#savingsType').val('Time');
-//         toggleSavingsType();
-//     } else if (rigType === 'Offshore') {
-//         $('#savingsTypeSection').addClass('hidden');
-//         $('#timeSection').removeClass('hidden');
-//         $('#fuelSection').addClass('hidden');
-//         rigSelect.append(new Option('Drillship', 'Drillship'));
-//         rigSelect.append(new Option('Semi-Submersible', 'Semi-Submersible'));
-//         rigSelect.append(new Option('Jack-up', 'Jack-up'));
-//     }
-// }
-
 function toggleSavingsType() {
     var savingsType = $('#savingsType').val();
     if (savingsType === 'Time') {
@@ -139,6 +118,34 @@ function submitScope1Form() {
     });
 }
 
+function submitco2MobForm() {
+    var formData = {};
+    $('#co2MobForm').find('input, select').each(function() {
+        formData[this.name] = $(this).val() || '0'; // Ensure no empty values are sent
+    });
+
+    console.log('Sending data:', formData); // Log data being sent
+
+    $.ajax({
+        url: '/co2_mobile_fuel_amount',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(formData),
+        success: function(response) {
+            console.log('Received response:', response); // Log received response
+            // Check if the response contains the emissions data
+            if (response && response.metric_ton_co2 !== undefined && !isNaN(response.metric_ton_co2)) {
+                displayOnlyCo2Results(response, 'co2MobResults');
+            } else {
+                $('#co2MobResults').html('<h3>Error: Invalid response received from the server.</h3>');
+            }
+        },
+        error: function(error) {
+            console.error('Error:', error);
+            $('#co2MobResults').html('<h3>Error: Could not reach the server. Please try again later.</h3>');
+        }
+    });
+}
 function displayResults(data, elementId) {
     var resultsDiv = $('#' + elementId);
     resultsDiv.empty(); // Clear previous results
@@ -163,5 +170,18 @@ function displayResults(data, elementId) {
             </div>
         </div>`;
 
+    resultsDiv.html(resultsHTML);
+}
+
+function displayOnlyCo2Results(data, elementId) {
+    var resultsDiv = $('#' + elementId);
+    resultsDiv.empty(); // Clear previous results
+
+    var resultsHTML = `
+        <div class="result-box">
+            <div class="result-label-header">Total CO2 Emissions</div>
+            <div class="result-value-large">${parseFloat(data.metric_ton_co2).toFixed(6)}</div>
+        </div>
+    `;
     resultsDiv.html(resultsHTML);
 }

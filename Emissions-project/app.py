@@ -149,6 +149,7 @@ class Co2MblFuelAMountCalculator:
         }
 
     def calculate_emissions(self, fuel_type, fuel_consumption, unit):
+        fuel_consumption=int(fuel_consumption)
         if unit == 'liter':
             fuel_consumption /= 3.785
         return {

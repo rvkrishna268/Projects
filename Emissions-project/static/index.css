@@ -30,7 +30,7 @@ h2 {
 #refreshButton {
     position:absolute;
     top: 100%; /* Positioned below the title block */
-    right: 0;
+    left: 5px;
     margin-top: 4px; /* 4px space between the header and button */
     background-color: #dc3545;
     border-color: #c82333;
