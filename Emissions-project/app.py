@@ -169,6 +169,10 @@ def page2():
 def page3():
     return render_template('page3.html')
 
+@app.route('/page4')
+def page4():
+    return render_template('page4.html')
+
 @app.route('/calculate', methods=['POST'])
 def calculate():
     data = request.get_json() or {}

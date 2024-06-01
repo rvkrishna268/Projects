@@ -13,15 +13,30 @@
     <div class="header">
         <h1>Basic Emissions Reduction Calculator</h1>
         <button id="refreshButton" class="btn btn-danger" onclick="window.location.reload();">Clear All</button>
-        <button id="navigateButton" class="btn btn-primary" onclick="window.location.href='/';">1</button>
-        <button id="navigateButton" class="btn btn-primary" onclick="window.location.href='/page2';">2</button>
-        <button id="navigateButton" class="btn btn-primary" onclick="window.location.href='/page3';">3</button>
+    </div>
+    <div class="nav">
+        <div class="button-container">
+            <button id="navigateButton1" class="btn btn-primary" onclick="window.location.href='/';">1</button>
+            <div class="tooltip">Rig and Generator Emissions Calculator</div>
+        </div>
+        <div class="button-container">
+            <button id="navigateButton2" class="btn btn-primary" onclick="window.location.href='page2';">2</button>
+            <div class="tooltip">Scope1 and Co2 Emissions Calculator</div>
+        </div>
+        <div class="button-container">
+            <button id="navigateButton3" class="btn btn-primary" onclick="window.location.href='page3';">3</button>
+            <div class="tooltip">Scope3 Cat 4&9 Emissions Calculator</div>
+        </div>
+        <div class="button-container">
+            <button id="navigateButton4" class="btn btn-primary" onclick="window.location.href='page4';">4</button>
+            <div class="tooltip">Scope3 Cat 6&7  Emissions Calculator</div>
+        </div>
     </div>
     <div class="container">
         <!-- Scope 1 Emissions Calculator Section -->
         <div class="row mb-4">
             <div class="col-md-6">
-                <h2>Scope 3 Category 4&9 Emissions Calculator</h2>
+                <h2>Scope 3 Category 4 Emissions Calculator</h2>
                 <form id="emissionsForm">
                     <div class="form-group col-sm">
                         <label for="rigType">Select Rig Type:</label>
@@ -64,7 +79,7 @@
                 <div id="results" class="mt-3"></div>
             </div>
             <div class="col-md-6">
-                <h2>Scope 3 Category 4&9 Emissions Calculator</h2>
+                <h2>Scope 3 Category 9 Emissions Calculator</h2>
                 <form id="emissionsForm">
                     <div class="form-group col-sm">
                         <label for="rigType">Select Rig Type:</label>
@@ -105,49 +120,6 @@
             </div>
             <div class="col-md-6">
                 <div id="results" class="mt-3"></div>
-            </div>
-        </div>
-        <!-- Co2 mobile Emissions Calculator Section -->
-        <div class="row">
-            <div class="col-md-6">
-                <h2>Scope 3 Category 6&7 Emissions Calculator</h2>
-                <form id="generatorForm">
-                    <div class="form-group col-sm">
-                        <label for="generatorFuelAmount">Enter Fuel Amount:</label>
-                        <input type="number" class="form-control" id="generatorFuelAmount" name="fuel_amount">
-                    </div>
-                    <div class="form-group col-sm">
-                        <label for="generatorFuelUnits">Select Fuel Units:</label>
-                        <select class="form-control" id="generatorFuelUnits" name="fuel_units">
-                            <option value="Gallons">Gallons</option>
-                            <option value="Liters">Liters</option>
-                        </select>
-                    </div>
-                    <button type="button" class="btn btn-primary col-sm" onclick="submitGeneratorForm()">Calculate Emissions</button>
-                </form>
-            </div>
-            <div class="col-md-6">
-                <div id="generatorResults" class="mt-3"></div>
-            </div>
-            <div class="col-md-6">
-                <h2>Scope 3 Category 6&7 Emissions Calculator</h2>
-                <form id="generatorForm">
-                    <div class="form-group col-sm">
-                        <label for="generatorFuelAmount">Enter Fuel Amount:</label>
-                        <input type="number" class="form-control" id="generatorFuelAmount" name="fuel_amount">
-                    </div>
-                    <div class="form-group col-sm">
-                        <label for="generatorFuelUnits">Select Fuel Units:</label>
-                        <select class="form-control" id="generatorFuelUnits" name="fuel_units">
-                            <option value="Gallons">Gallons</option>
-                            <option value="Liters">Liters</option>
-                        </select>
-                    </div>
-                    <button type="button" class="btn btn-primary col-sm" onclick="submitGeneratorForm()">Calculate Emissions</button>
-                </form>
-            </div>
-            <div class="col-md-6">
-                <div id="generatorResults" class="mt-3"></div>
             </div>
         </div>
     </div>
