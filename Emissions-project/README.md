@@ -61,3 +61,65 @@ Description of the endpoint.
     - gallons
     - liter
   - `fuel_consumption`: integer
+
+
+### Route: /scope3
+
+#### curl
+
+```
+curl --location 'http://127.0.0.1:8080/scope3' \
+--header 'Content-Type: application/json' \
+--data '[
+    {
+        "distance": 1,
+        "unit": "miles",
+        "vehicle_type": "Medium- and Heavy-Duty Truck",
+        "category": "upstream"
+    },
+    {
+        "distance": 1,
+        "unit": "miles",
+        "vehicle_type": "Medium- and Heavy-Duty Truck",
+        "category": "upstream"
+    }
+]'
+```
+
+Description of the endpoint.
+
+- **Path:** `/scope3`
+- **HTTP Method:** `POST`
+- **Parameters:**
+  - `distance`: integer
+  - `unit`: Any of these 2
+    - km
+    - miles
+  - `category`: Any of the below
+    - upstream
+    - downstream
+    - business_travel
+    - employee_commuting
+  - `vehicle_type`: Any of the following options category wise
+    - business_travel
+      - Passenger Car 
+      - Light-Duty Truck
+      - Motorcycle
+    - employee_commuting
+      - Intercity Rail
+      - Commuter Rail
+      - Transit Rail (i.e. Subway, Tram) 
+      - Bus
+      - Air Travel - Short Haul (< 300 miles) 
+      - Air Travel - Medium Haul (>= 300 miles, < 2300 miles) 
+      - Air Travel - Long Haul (>= 2300 miles) 
+    - upstream
+      - Medium- and Heavy-Duty Truck
+      - Passenger Car
+      - Light-Duty Truck
+    - downstream
+      - Medium- and Heavy-Duty Truck
+      - Rail
+      - Waterborne Craft (i.e. Ships, Boats, Barges etc.)
+      - Aircraft (i.e. Airplanes, Helicopters)
+  
