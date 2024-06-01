@@ -197,10 +197,29 @@ function removeRow(button) {
     $(button).closest('tr').remove();
 }
 
-function submitScopeForm() {
+function submitScopeForm(category) {
     var formData = [];
 
-    $('#emissionsTable tbody tr').each(function() {
+    var tableBodyId;
+    switch (category) {
+        case 'upstream':
+            tableBodyId = 'upstream';
+            break;
+        case 'downstream':
+            tableBodyId = 'downstream';
+            break;
+        case 'business_travel':
+            tableBodyId = 'business_travel';
+            break;
+        case 'employee_commuting':
+            tableBodyId = 'employee_commuting';
+            break;
+        default:
+            console.error('Invalid category:', category);
+            return;
+    }
+    
+    $('#' + tableBodyId + ' tr').each(function() {
         var vehicleType = $(this).find('select[name="vehicle_type[]"]').val();
         var distanceUnit = $(this).find('select[name="distance_unit[]"]').val();
         var distance = $(this).find('input[name="distance[]"]').val();
@@ -210,7 +229,7 @@ function submitScopeForm() {
                 vehicle_type: vehicleType,
                 unit: distanceUnit,
                 distance: parseFloat(distance),
-                category: "upstream"
+                category: category
             });
         }
     });
