@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
+import sys
 
 app = Flask(__name__)
 CORS(app)
@@ -371,4 +372,6 @@ def scope3():
         }), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, use_reloader=True, port=8080)
+    prod = '--prod' in sys.argv
+    port = 80 if prod else 8080
+    app.run(debug=True, use_reloader=not prod, port=port)
