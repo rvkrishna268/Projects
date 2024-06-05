@@ -2,6 +2,7 @@ body {
     background-color: #f4f4f9;
     font-family: "Arial", sans-serif;
 }
+
 .header {
     background-color: #28a745; /* Bootstrap green */
     color: white;
@@ -12,24 +13,29 @@ body {
     margin-bottom: 10px; /* Adjusted for button positioning */
     position: relative;
 }
+
 .nav {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 20px;
 }
+
 .container {
     padding: 40px;
 }
+
 h2 {
     margin-bottom: 20px;
     color: #333;
 }
+
 .btn-primary {
     background-color: #0056b3;
     border-color: #004085;
     margin: 0 10px;
 }
+
 .tooltip {
     visibility: hidden;
     width: 300px;
@@ -46,19 +52,23 @@ h2 {
     opacity: 0;
     transition: opacity 0.3s;
 }
+
 .button-container {
     position: relative;
     display: inline-block;
     margin: 0 10px;
 }
+
 .button-container:hover .tooltip {
     visibility: visible;
     opacity: 1;
 }
+
 .btn-primary:hover {
     background-color: #004085;
     border-color: #003366;
 }
+
 #refreshButton {
     position: absolute;
     top: 100%; /* Positioned below the title block */
@@ -68,38 +78,47 @@ h2 {
     border-color: #c82333;
     padding: 5px 10px; /* Padding for button size */
 }
+
 #refreshButton:hover {
     background-color: #c82333;
     border-color: #bd2130;
 }
+
 label {
     color: #555;
 }
+
 .form-control {
     background-color: #ffffff;
     border: 1px solid #ced4da;
 }
+
 .form-group {
     margin-bottom: 15px;
 }
+
 .hidden {
     display: none;
 }
+
 .form-group,
 #results,
 #generatorResults {
     width: 50%;
     float: left;
 }
+
 #results {
     width: 100%;
 }
+
 .result-box {
     border: 1px solid #f0f0f0;
     padding: 10px;
     margin-bottom: 10px;
     width: 100%;
 }
+
 .result-label-header {
     background-color: #d3d3d3;
     padding: 10px;
@@ -108,6 +127,7 @@ label {
     color: #000;
     text-align: center;
 }
+
 .result-value-large {
     padding-top: 10px;
     color: green;
@@ -115,6 +135,7 @@ label {
     font-size: 30px;
     text-align: center;
 }
+
 .result-row {
     display: flex; /* Use flexbox to arrange fields in a row */
     justify-content: space-between; /* Distribute space evenly between fields */
@@ -122,26 +143,83 @@ label {
     padding: 10px;
     background-color: #f0f0f0;
 }
+
 .result-field {
     flex: 1; /* Make all fields take up equal width */
     text-align: center; /* Center align the content within each field */
 }
+
 .result-label {
     font-weight: bold;
     color: #000;
     margin-bottom: 5px; /* Add space between label and value */
 }
+
 .result-value {
     font-weight: bold;
 }
+
 .result-value-1 {
     color: green;
     font-weight: bold;
 }
+
 #generatorResults {
     width: 100%;
-    margin-top: 100 !important;
+    margin-top: -35px !important; /* Move the results up by 30px */
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.total-emissions-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.total-co2e {
+    /* background-color: #f8f9fa; */
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+
+.total-co2e-header {
+    font-size: 20px;
+    font-weight: bold;
+    color: #131212;
+    background-color: #d3d3d3;
+}
+
+.total-co2e-value {
+    font-size: 36px;
+    font-weight: bold;
+    color: green;
+}
+
+.individual-emissions {
+    display: flex;
+    justify-content: space-around;
+    background-color: #f0f0f0;
+}
+
+.emission-box {
+    /* background-color: #f8f9fa; */
+    padding: 10px;
+    /* border: 1px solid #ced4da; */
+    border-radius: 5px;
+    width: 30%;
+}
+
+.emission-label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.emission-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: green;
 }

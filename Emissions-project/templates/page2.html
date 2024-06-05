@@ -11,7 +11,7 @@
 </head>
 <body>
     <div class="header">
-        <h1>Basic Emissions Reduction Calculator</h1>
+        <h1>Basic GHG Emissions Calculatorr</h1>
         <button id="refreshButton" class="btn btn-danger" onclick="window.location.reload();">Clear All</button>
     </div>
     <div class="nav">
@@ -57,7 +57,7 @@
                     </div>
                     <div class="form-group col-sm">
                         <label for="scope1DistanceAmount">Enter Distance Amount:</label>
-                        <input type="number" class="form-control" id="scope1DistanceAmount" name="distance">
+                        <input type="number" class="form-control" id="scope1DistanceAmount" name="distance" min="0">
                     </div>
                     <button type="button" class="btn btn-primary col-sm" onclick="submitScope1Form()">Calculate Emissions</button>
                 </form>
@@ -92,7 +92,7 @@
                     </div>
                     <div class="form-group col-sm">
                         <label for="co2MobFuelAmount">Enter Fuel Amount:</label>
-                        <input type="number" class="form-control" id="co2MobFuelAmount" name="fuel_consumption">
+                        <input type="number" class="form-control" id="co2MobFuelAmount" name="fuel_consumption" min="0">
                     </div>
                     <button type="button" class="btn btn-primary col-sm" onclick="submitco2MobForm()">Calculate Emissions</button>
                 </form>

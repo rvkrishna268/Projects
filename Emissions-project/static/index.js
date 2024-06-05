@@ -189,19 +189,19 @@ function displayResults(data, elementId) {
         </div>
         <div class="result-box result-row">
             <div class="result-field">
-                <div class="result-label">CO2 (mt):</div>
+                <div class="result-label">Carbon Dioxide (mt):</div>
                 <div class="result-value">${parseFloat(data.CO2).toFixed(
                   6
                 )}</div>
             </div>
             <div class="result-field">
-                <div class="result-label">CH4 (mt):</div>
+                <div class="result-label">Methane (mt):</div>
                 <div class="result-value-1">${parseFloat(data.CH4).toFixed(
                   6
                 )}</div>
             </div>
             <div class="result-field">
-                <div class="result-label">N2O (mt):</div>
+                <div class="result-label">Nirous Oxide (mt):</div>
                 <div class="result-value">${parseFloat(data.N2O).toFixed(
                   6
                 )}</div>
@@ -217,7 +217,7 @@ function displayOnlyCo2Results(data, elementId) {
 
   var resultsHTML = `
         <div class="result-box">
-            <div class="result-label-header">Total CO2 Emissions</div>
+            <div class="result-label-header">Total Carbon Dioxide Emissions</div>
             <div class="result-value-large">${parseFloat(
               data.metric_ton_co2
             ).toFixed(6)}</div>
@@ -315,7 +315,7 @@ function displayScope3Results(data, elementId) {
   resultsDiv.empty();
 
   var resultsHTML =
-    '<table class="table"><thead><tr><th>CO2 (mt)</th><th>CH4 (mt)</th><th>N2O (mt)</th><th>CO2e (mt)</th></tr></thead><tbody>';
+    '<table class="table"><thead><tr><th>Carbon Dioxide (mt)</th><th>Methane (mt)</th><th>Nitrous Oxide (mt)</th><th>CO2e (mt)</th></tr></thead><tbody>';
 
   data.results.forEach(function (result) {
     resultsHTML += `<tr>
@@ -329,24 +329,40 @@ function displayScope3Results(data, elementId) {
   resultsHTML += "</tbody></table>";
 
   resultsHTML += `<h3>Total Emissions</h3>
-                    <table class="table">
-                        <thead><tr><th>CO2 (mt)</th><th>CH4 (mt)</th><th>N2O (mt)</th><th>CO2e (mt)</th></tr></thead><tbody>';
-
-                        <tbody>
-                            <tr>
-                            <td>${parseFloat(data.total.CO2).toFixed(8)}</td>
-                                <td>${parseFloat(data.total.CH4).toFixed(
-                                  8
-                                )}</td>
-                                <td>${parseFloat(data.total.N2O).toFixed(
-                                  8
-                                )}</td>
-                                <td>${parseFloat(data.total.CO2e).toFixed(
-                                  8
-                                )}</td>
-                            </tr>
-                        </tbody>
-                    </table>`;
+  <div class="total-emissions-container">
+  <div class="total-co2e">
+      <div class="total-co2e-header">Total CO2e Emissions (mt):</div>
+      <div class="total-co2e-value" id="total-co2e-value">${parseFloat(data.total.CO2e).toFixed(6)}</div>
+  </div>
+  <div class="individual-emissions">
+      <div class="emission-box">
+          <div class="emission-label">Carbon Dioxide (mt):</div>
+          <div class="emission-value1" id="co2-emissions-value">${parseFloat(data.total.CO2).toFixed(6)}</div>
+      </div>
+      <div class="emission-box">
+          <div class="emission-label">Methane (mt):</div>
+          <div class="emission-value" id="ch4-emissions-value">${parseFloat(data.total.CH4).toFixed(6)}</div>
+      </div>
+      <div class="emission-box">
+          <div class="emission-label">Nitrous Oxide (mt):</div>
+          <div class="emission-value1" id="n2o-emissions-value">${parseFloat(data.total.N2O).toFixed(6)}</div>
+      </div>
+  </div>
+</div>`;
 
   resultsDiv.html(resultsHTML);
 }
+
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Select all input fields that need to be checked
+            const inputs = document.querySelectorAll('input[type="number"][min="0"]');
+
+            inputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    if (input.value < 0) {
+                        input.value = 0;
+                    }
+                });
+            });
+        });

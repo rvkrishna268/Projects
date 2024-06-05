@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="header">
-        <h1>Basic Emissions Reduction Calculator</h1>
+        <h1>Basic GHG Emissions Calculator</h1>
         <button id="refreshButton" class="btn btn-danger" onclick="window.location.reload();">Clear All</button>
     </div>
     <div class="nav">
@@ -63,7 +63,7 @@
                                 </select>
                             </td>
                             <td>
-                                <input type="number" class="form-control" name="distance[]">
+                                <input type="number" class="form-control" name="distance[]" min="0">
                             </td>
                             <td>
                                 <button type="button" class="btn btn-success" onclick="addRow(this)">+</button>
@@ -107,7 +107,7 @@
                                 </select>
                             </td>
                             <td>
-                                <input type="number" class="form-control" name="distance[]">
+                                <input type="number" class="form-control" name="distance[]" min="0">
                             </td>
                             <td>
                                 <button type="button" class="btn btn-success" onclick="addRow(this)">+</button>
