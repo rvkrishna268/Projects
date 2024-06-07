@@ -182,26 +182,26 @@ function displayResults(data, elementId) {
 
   var resultsHTML = `
         <div class="result-box">
-            <div class="result-label-header">Total CO2e Emissions (mt)</div>
+            <div class="result-label-header">Total CO2e Emissions (Metric Ton)</div>
             <div class="result-value-large">${parseFloat(data.CO2e).toFixed(
               6
             )}</div>
         </div>
         <div class="result-box result-row">
             <div class="result-field">
-                <div class="result-label">Carbon Dioxide (mt):</div>
+                <div class="result-label">Carbon Dioxide (Metric Ton):</div>
                 <div class="result-value">${parseFloat(data.CO2).toFixed(
                   6
                 )}</div>
             </div>
             <div class="result-field">
-                <div class="result-label">Methane (mt):</div>
+                <div class="result-label">Methane (Metric Ton):</div>
                 <div class="result-value-1">${parseFloat(data.CH4).toFixed(
                   6
                 )}</div>
             </div>
             <div class="result-field">
-                <div class="result-label">Nirous Oxide (mt):</div>
+                <div class="result-label">Nirous Oxide (Metric Ton):</div>
                 <div class="result-value">${parseFloat(data.N2O).toFixed(
                   6
                 )}</div>
@@ -226,23 +226,28 @@ function displayOnlyCo2Results(data, elementId) {
   resultsDiv.html(resultsHTML);
 }
 function addRow(button) {
-    var row = $(button).closest("tr").clone();
-    console.log(row)
-    row.find("input, select").val("");
-    row
+  var row = $(button).closest("tr").clone();
+  console.log(row);
+  row.find("input, select").val("");
+  row
     .find("button")
     .removeClass("btn-success")
     .addClass("btn-danger")
     .text("-")
     .attr("onclick", "removeRow(this)");
-    $(button).closest("tbody").append(row);
+  $(button).closest("tbody").append(row);
 }
 
 function addRowPage4(tableBodyId) {
-var row = $("#" + tableBodyId + " tr:first").clone();
-    row.find("input, select").val("");
-    row.find("button").removeClass("btn-success").addClass("btn-danger").text("-").attr("onclick", "removeRow(this)");
-    $("#" + tableBodyId).append(row);
+  var row = $("#" + tableBodyId + " tr:first").clone();
+  row.find("input, select").val("");
+  row
+    .find("button")
+    .removeClass("btn-success")
+    .addClass("btn-danger")
+    .text("-")
+    .attr("onclick", "removeRow(this)");
+  $("#" + tableBodyId).append(row);
 }
 
 function removeRow(button) {
@@ -273,12 +278,15 @@ function submitScopeForm(category) {
     var vehicleType = $(this).find('select[name="vehicle_type[]"]').val();
     var distanceUnit = $(this).find('select[name="distance_unit[]"]').val();
     var distance = $(this).find('input[name="distance[]"]').val();
+    var numPassengers = $(this).find('input[name="num_passengers[]"]').val();
+
 
     if (vehicleType && distanceUnit && distance) {
       formData.push({
         vehicle_type: vehicleType,
         unit: distanceUnit,
         distance: parseFloat(distance),
+        num_passengers: parseInt(numPassengers) || 1,
         category: category,
       });
     }
@@ -315,7 +323,7 @@ function displayScope3Results(data, elementId) {
   resultsDiv.empty();
 
   var resultsHTML =
-    '<table class="table"><thead><tr><th>Carbon Dioxide (mt)</th><th>Methane (mt)</th><th>Nitrous Oxide (mt)</th><th>CO2e (mt)</th></tr></thead><tbody>';
+    '<table class="table"><thead><tr><th>Carbon Dioxide (Metric Ton)</th><th>Methane (Metric Ton)</th><th>Nitrous Oxide (Metric Ton)</th><th>CO2e (Metric Ton)</th></tr></thead><tbody>';
 
   data.results.forEach(function (result) {
     resultsHTML += `<tr>
@@ -331,21 +339,29 @@ function displayScope3Results(data, elementId) {
   resultsHTML += `<h3>Total Emissions</h3>
   <div class="total-emissions-container">
   <div class="total-co2e">
-      <div class="total-co2e-header">Total CO2e Emissions (mt):</div>
-      <div class="total-co2e-value" id="total-co2e-value">${parseFloat(data.total.CO2e).toFixed(6)}</div>
+      <div class="total-co2e-header">Total CO2e Emissions (Metric Ton):</div>
+      <div class="total-co2e-value" id="total-co2e-value">${parseFloat(
+        data.total.CO2e
+      ).toFixed(6)}</div>
   </div>
   <div class="individual-emissions">
       <div class="emission-box">
-          <div class="emission-label">Carbon Dioxide (mt):</div>
-          <div class="emission-value1" id="co2-emissions-value">${parseFloat(data.total.CO2).toFixed(6)}</div>
+          <div class="emission-label">Carbon Dioxide (Metric Ton):</div>
+          <div class="emission-value1" id="co2-emissions-value">${parseFloat(
+            data.total.CO2
+          ).toFixed(6)}</div>
       </div>
       <div class="emission-box">
-          <div class="emission-label">Methane (mt):</div>
-          <div class="emission-value" id="ch4-emissions-value">${parseFloat(data.total.CH4).toFixed(6)}</div>
+          <div class="emission-label">Methane (Metric Ton):</div>
+          <div class="emission-value" id="ch4-emissions-value">${parseFloat(
+            data.total.CH4
+          ).toFixed(6)}</div>
       </div>
       <div class="emission-box">
-          <div class="emission-label">Nitrous Oxide (mt):</div>
-          <div class="emission-value1" id="n2o-emissions-value">${parseFloat(data.total.N2O).toFixed(6)}</div>
+          <div class="emission-label">Nitrous Oxide (Metric Ton):</div>
+          <div class="emission-value1" id="n2o-emissions-value">${parseFloat(
+            data.total.N2O
+          ).toFixed(6)}</div>
       </div>
   </div>
 </div>`;
@@ -353,16 +369,108 @@ function displayScope3Results(data, elementId) {
   resultsDiv.html(resultsHTML);
 }
 
+document.addEventListener("DOMContentLoaded", (event) => {
+  // Select all input fields that need to be checked
+  const inputs = document.querySelectorAll('input[type="number"][min="0"]');
 
-        document.addEventListener('DOMContentLoaded', (event) => {
-            // Select all input fields that need to be checked
-            const inputs = document.querySelectorAll('input[type="number"][min="0"]');
+  inputs.forEach((input) => {
+    input.addEventListener("input", () => {
+      if (input.value < 0) {
+        input.value = 0;
+      }
+    });
+  });
+});
+document.addEventListener("DOMContentLoaded", (event) => {
+  const vehicleTypeSelects = document.querySelectorAll(".vehicle-type");
+  const numPassengersHeader = document.getElementById("numPassengersHeader");
 
-            inputs.forEach(input => {
-                input.addEventListener('input', () => {
-                    if (input.value < 0) {
-                        input.value = 0;
-                    }
-                });
-            });
-        });
+  vehicleTypeSelects.forEach((select) => {
+    select.addEventListener("change", function () {
+      const row = this.closest("tr");
+      const numPassengersContainer = row.querySelector(
+        ".num-passengers-container"
+      );
+
+      if (
+        ["Passenger Car", "Light-Duty Truck", "Motorcycle"].includes(this.value)
+      ) {
+        numPassengersContainer.classList.add("hidden");
+      } else {
+        numPassengersContainer.classList.remove("hidden");
+      }
+
+      // Check if any of the selects have a value that should show the header
+      let showHeader = false;
+      vehicleTypeSelects.forEach((sel) => {
+        if (
+          !["Passenger Car", "Light-Duty Truck", "Motorcycle"].includes(
+            sel.value
+          ) &&
+          sel.value !== ""
+        ) {
+          showHeader = true;
+        }
+      });
+
+      if (showHeader) {
+        numPassengersHeader.classList.remove("hidden");
+      } else {
+        numPassengersHeader.classList.add("hidden");
+      }
+    });
+  });
+  // Select all input fields that need to be checked
+  const inputs = document.querySelectorAll('input[type="number"][min="0"]');
+
+  inputs.forEach((input) => {
+    input.addEventListener("input", () => {
+      if (input.value < 0) {
+        input.value = 0;
+      }
+    });
+  });
+});
+
+function addRowPage5(tableBodyId) {
+  var row = $("#" + tableBodyId + " tr:first").clone();
+  row.find("input, select").val("");
+  row.find(".num-passengers-container").addClass("hidden"); // Ensure the new row's passengers field is hidden initially
+  row
+    .find("button")
+    .removeClass("btn-success")
+    .addClass("btn-danger")
+    .text("-")
+    .attr("onclick", "removeRow(this)");
+  $("#" + tableBodyId).append(row);
+
+  // Reapply the change event listener for the new row's vehicle type select
+  row.find(".vehicle-type").on("change", function () {
+    const numPassengersContainer = row.find(".num-passengers-container");
+    if (
+      ["Passenger Car", "Light-Duty Truck", "Motorcycle"].includes(this.value)
+    ) {
+      numPassengersContainer.addClass("hidden");
+    } else {
+      numPassengersContainer.removeClass("hidden");
+    }
+    // Check if any of the selects have a value that should show the header
+    let showHeader = false;
+    $(".vehicle-type").each(function () {
+      if (
+        !["Passenger Car", "Light-Duty Truck", "Motorcycle"].includes(
+          this.value
+        ) &&
+        this.value !== ""
+      ) {
+        showHeader = true;
+      }
+    });
+
+    if (showHeader) {
+      $("#numPassengersHeader").removeClass("hidden");
+    } else {
+      $("#numPassengersHeader").addClass("hidden");
+    }
+  });
+}

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Page 3</title>
+    <title>Page 4</title>
     <meta charset="UTF-8">
     <title>Emissions Calculators</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
@@ -36,29 +36,39 @@
         </div>
     </div>
     <div class="container">
-        <!-- Scope 1 Emissions Calculator Section -->
-        <h2 class="scope1p4-header">Upstream and Downstream Transportation and Distribution Emissions Calculator(Scope 3 Cat 4 & 9)</h2 class="scope1p4-header">
+        <!-- Business Travel Calculator Section -->
         <div class="row mb-4">
             <div class="col-md-6">
-                <h3>Upstream Transportation and Distribution Emissions Calculator(Scope 3 Category 4)</h3>
-                <table class="table" id="upstreamTable">
+                <h2>Business Travel and Employee Commuting GHG Emissions Calculator</h2>
+                <table class="table" id="businessTravelTable">
                     <thead>
                         <tr>
                             <th>Vehicle Type</th>
+                            <th id="numPassengersHeader" class="hidden">Number of Passengers</th> 
                             <th>Select Distance Unit</th>
                             <th>Enter Distance</th>
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody id="upstreamTableBody">
+                    <tbody id="businessTravelTableBody">
                         <tr>
                             <td>
-                                <select class="form-control" name="vehicle_type[]">
+                                <select class="form-control vehicle-type" name="vehicle_type[]">
                                     <option value="">Select Type</option>
-                                    <option value="Medium- and Heavy-Duty Truck">Medium- and Heavy-Duty Truck</option>
                                     <option value="Passenger Car">Passenger Car</option>
                                     <option value="Light-Duty Truck">Light-Duty Truck</option>
+                                    <option value="Motorcycle">Motorcycle</option>
+                                    <option value="Intercity Rail">Intercity Rail</option>
+                                    <option value="Commuter Rail">Commuter Rail</option>
+                                    <option value="Transit Rail">Transit Rail</option>
+                                    <option value="Bus">Bus</option>
+                                    <option value="Air Travel - Short Haul">Air Travel - Short Haul</option>
+                                    <option value="Air Travel - Medium Haul">Air Travel - Medium Haul</option>
+                                    <option value="Air Travel - Long Haul">Air Travel - Long Haul</option>
                                 </select>
+                            </td>
+                            <td class="num-passengers-container hidden">
+                                <input type="number" class="form-control" name="num_passengers[]" >
                             </td>
                             <td>
                                 <select class="form-control" name="distance_unit[]">
@@ -68,59 +78,16 @@
                                 </select>
                             </td>
                             <td>
-                                <input type="number" class="form-control" name="distance[]" min="0">
+                                <input type="number" class="form-control" name="distance[]">
                             </td>
                             <td>
-                                <button type="button" class="btn btn-success" onclick="addRow(this)">+</button>
+                                <button type="button" class="btn btn-success" onclick="addRowPage5('businessTravelTableBody')">+</button>
                             </td>
                         </tr>
                     </tbody>
+                    
                 </table>
-                <!-- <button type="button" class="btn btn-primary col-sm" onclick="submitScopeForm('upstream')">Calculate Emissions</button> -->
-            </div>
-            <div class="col-md-6">
-                <div id="results" class="mt-3"></div>
-            </div>
-            <div class="col-md-6">
-                &nbsp;
-                <h3>Downstream Transportation and Distribution Emissions Calculator(Scope 3 Category 9)</h3>
-                <table class="table" id="downstreamTable">
-                    <thead>
-                        <tr>
-                            <th>Vehicle Type</th>
-                            <th>Select Distance Unit</th>
-                            <th>Enter Distance</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="upstreamTableBody">
-                        <tr>
-                            <td>
-                                <select class="form-control" name="vehicle_type[]">
-                                    <option value="">Select Type</option>
-                                    <option value="Medium- and Heavy-Duty Truck-ds">Medium- and Heavy-Duty Truck</option>
-                                    <option value="Rail">Rail</option>
-                                    <option value="Waterborne Craft">Waterborne Craft</option>
-                                    <option value="Aircraft">Aircraft</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select class="form-control" name="distance_unit[]">
-                                    <option value="">Select Type</option>
-                                    <option value="km">KM</option>
-                                    <option value="miles">Miles</option>
-                                </select>
-                            </td>
-                            <td>
-                                <input type="number" class="form-control" name="distance[]" min="0">
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-success" onclick="addRow(this)">+</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <button type="button" class="btn btn-primary col-sm" onclick="submitScopeForm('upstream')">Calculate Emissions</button>
+                <button type="button" class="btn btn-primary col-sm" onclick="submitScopeForm('business_travel')">Calculate Emissions</button>
             </div>
             <div class="col-md-6">
                 <div id="results" class="mt-3"></div>

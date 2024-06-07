@@ -5,33 +5,7 @@ import sys
 app = Flask(__name__)
 CORS(app)
 
-class GeneratorEmissionsCalculator:
-    def __init__(self):
-        self.emissions_data = {
-            'CO2e per gallon': 0.01024268,
-            'CO2 per gallon': 0.01021,
-            'CH4 per gallon': 0.00000041,
-            'N2O per gallon': 0.00000008
-        }
-
-    def calculate_emissions(self, fuel_amount, fuel_units):
-        fuel_amount = float(fuel_amount)
-        if fuel_units == 'Liters':
-            fuel_amount *= 0.264172  # Convert liters to gallons
-        
-        emissions = {key.split(' per gallon')[0]: value * fuel_amount for key, value in self.emissions_data.items()}
-        return emissions
-
-@app.route('/calculate_generator', methods=['POST'])
-def calculate_generator():
-    data = request.get_json() or {}
-    calculator = GeneratorEmissionsCalculator()
-    result = calculator.calculate_emissions(
-        fuel_amount=data.get('fuel_amount', '0'),
-        fuel_units=data.get('fuel_units', 'Gallons')
-    )
-    return jsonify(result)
-
+# RigsEmission
 class RigEmissionsCalculator:
     def __init__(self):
         self.emissions_data = {
@@ -87,6 +61,25 @@ class RigEmissionsCalculator:
 
         return emissions
 
+# Generator emissions        
+class GeneratorEmissionsCalculator:
+    def __init__(self):
+        self.emissions_data = {
+            'CO2e per gallon': 0.01024268,
+            'CO2 per gallon': 0.01021,
+            'CH4 per gallon': 0.00000041,
+            'N2O per gallon': 0.00000008
+        }
+
+    def calculate_emissions(self, fuel_amount, fuel_units):
+        fuel_amount = float(fuel_amount)
+        if fuel_units == 'Liters':
+            fuel_amount *= 0.264172  # Convert liters to gallons
+        
+        emissions = {key.split(' per gallon')[0]: value * fuel_amount for key, value in self.emissions_data.items()}
+        return emissions
+
+#Scope1emission:
 class Scope1EmissionsCalculator:
     def __init__(self):
         self.meta_data = {
@@ -126,6 +119,7 @@ class Scope1EmissionsCalculator:
             "CO2e": (co2 + ch4 * 28 + n2o * 265)
         }
 
+#co2mobl
 class Co2MblFuelAMountCalculator:
     def __init__(self) -> None:
         self.meta_data = {
@@ -156,7 +150,7 @@ class Co2MblFuelAMountCalculator:
         return {
             "metric_ton_co2": fuel_consumption * self.meta_data[fuel_type]["kg_co2_per_unit"] * (1 / 1000)
         }
-
+#scope3
 class Scope3Calculator:
     def __init__(self) -> None:
         self.meta_data = {
@@ -251,13 +245,13 @@ class Scope3Calculator:
             }
         }
 
-    def calculate_emissions(self, category, vehicle_type, unit, distance):
+    def calculate_emissions(self, category, vehicle_type, unit, distance, num_passengers=1):
         distance = int(distance)
         if unit == 'km':
             distance = distance / 1.609
-        co2 = distance * (self.meta_data[category][vehicle_type]["co2"]) * (1 / 1000)
-        ch4 = distance * (self.meta_data[category][vehicle_type]["ch4"]) * (1 / 1000000)
-        n2o = distance * (self.meta_data[category][vehicle_type]["n2o"]) * (1 / 1000000)
+        co2 = distance * (self.meta_data[category][vehicle_type]["co2"]) * (1 / 1000) * num_passengers
+        ch4 = distance * (self.meta_data[category][vehicle_type]["ch4"]) * (1 / 1000000) * num_passengers
+        n2o = distance * (self.meta_data[category][vehicle_type]["n2o"]) * (1 / 1000000) * num_passengers
         co2e = (co2 * 1) + (ch4 * 28) + (n2o * 265)
         return {
             "CO2": co2,
@@ -265,6 +259,7 @@ class Scope3Calculator:
             "N2O": n2o,
             "CO2e": co2e,
         }
+
 
 @app.route('/')
 def home():
@@ -282,6 +277,11 @@ def page3():
 def page4():
     return render_template('page4.html')
 
+@app.route('/page5')
+def page5():
+    return render_template('page5.html')
+
+
 @app.route('/calculate', methods=['POST'])
 def calculate():
     data = request.get_json() or {}
@@ -295,6 +295,18 @@ def calculate():
         fuel_units=data.get('fuel_units', '')
     )
     return jsonify(result)
+
+
+@app.route('/calculate_generator', methods=['POST'])
+def calculate_generator():
+    data = request.get_json() or {}
+    calculator = GeneratorEmissionsCalculator()
+    result = calculator.calculate_emissions(
+        fuel_amount=data.get('fuel_amount', '0'),
+        fuel_units=data.get('fuel_units', 'Gallons')
+    )
+    return jsonify(result)
+
 
 @app.route('/calculate_scope1_emissions', methods=['POST'])
 def calculate_scope1_emissions():

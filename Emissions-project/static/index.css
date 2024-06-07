@@ -14,6 +14,16 @@ body {
     position: relative;
 }
 
+.scope1p4-header{
+    font-weight: bold;
+    color:#28a745
+    }
+    
+    .scope1-header{
+    font-weight: bold;
+    color:#28a745
+}
+
 .nav {
     display: flex;
     justify-content: center;
@@ -57,6 +67,7 @@ h2 {
     position: relative;
     display: inline-block;
     margin: 0 10px;
+    padding: 5px;
 }
 
 .button-container:hover .tooltip {
@@ -160,7 +171,7 @@ label {
 }
 
 .result-value-1 {
-    color: green;
+    /* color: green; */
     font-weight: bold;
 }
 
@@ -218,8 +229,8 @@ label {
     color: #333;
 }
 
-.emission-value {
-    font-size: 24px;
-    font-weight: bold;
-    color: green;
-}
+/* .emission-value {
+    font-size: 24px; */
+    /* font-weight: bold; */
+    /* color: green;
+} */
