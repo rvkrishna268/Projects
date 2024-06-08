@@ -234,3 +234,25 @@ label {
     /* font-weight: bold; */
     /* color: green;
 } */
+
+.methodology {
+    padding: 20px;
+    margin: 40px 40px;
+    border: 1px solid green;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.methodology h3 {
+    margin-bottom: 15px;
+}
+
+.methodology textarea {
+    margin-left: 70px;
+    width: 85%;
+    border: 1px solid darkgreen;
+    border-radius: 10px;
+    padding: 10px;
+    resize: vertical;
+
+}

@@ -249,6 +249,7 @@ class Scope3Calculator:
         distance = int(distance)
         if unit == 'km':
             distance = distance / 1.609
+
         co2 = distance * (self.meta_data[category][vehicle_type]["co2"]) * (1 / 1000) * num_passengers
         ch4 = distance * (self.meta_data[category][vehicle_type]["ch4"]) * (1 / 1000000) * num_passengers
         n2o = distance * (self.meta_data[category][vehicle_type]["n2o"]) * (1 / 1000000) * num_passengers
@@ -259,6 +260,7 @@ class Scope3Calculator:
             "N2O": n2o,
             "CO2e": co2e,
         }
+
 
 
 @app.route('/')
@@ -363,6 +365,7 @@ def scope3():
                     vehicle_type=each_data.get('vehicle_type'),
                     unit=each_data.get('unit', 'km'),
                     distance=each_data.get('distance', 0) or 0,
+                    num_passengers=each_data.get('num_passengers', 1)
                 )
                 results.append(result)
 
@@ -382,6 +385,7 @@ def scope3():
             "message": "Something Went Wrong, Please try again",
             "error": str(e)
         }), 500
+
 
 if __name__ == '__main__':
     prod = '--prod' in sys.argv
