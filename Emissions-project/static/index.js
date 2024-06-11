@@ -281,7 +281,7 @@ function submitScopeForm(category) {
     var numPassengers = $(this).find('input[name="num_passengers[]"]').val();
 
 
-    if (vehicleType && distanceUnit && distance && numPassengers) {
+    if (vehicleType && distanceUnit && distance) {
       formData.push({
         vehicle_type: vehicleType,
         unit: distanceUnit,
