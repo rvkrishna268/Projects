@@ -36,11 +36,10 @@
         </div>
     </div>
     <div class="container">
-        <!-- Scope 1 Emissions Calculator Section -->
         <h2 class="scope1p4-header">Upstream and Downstream Transportation and Distribution Emissions Calculator(Scope 3 Cat 4 & 9)</h2 class="scope1p4-header">
         <div class="row mb-4">
             <div class="col-md-6">
-                <h3>Upstream Transportation and Distribution Emissions Calculator(Scope 3 Category 4)</h3>
+                <h3 class="upstream-header">Upstream Transportation and Distribution Emissions Calculator(Scope 3 Category 4)</h3>
                 <table class="table" id="upstreamTable">
                     <thead>
                         <tr>
@@ -83,11 +82,12 @@
             </div>
             <div class="col-md-6">
                 &nbsp;
-                <h3>Downstream Transportation and Distribution Emissions Calculator(Scope 3 Category 9)</h3>
+                <h3 class="upstream-header">Downstream Transportation and Distribution Emissions Calculator(Scope 3 Category 9)</h3>
                 <table class="table" id="downstreamTable">
                     <thead>
                         <tr>
                             <th>Vehicle Type</th>
+                            <th>Number of Turns</th>
                             <th>Select Distance Unit</th>
                             <th>Enter Distance</th>
                             <th>Action</th>
@@ -103,6 +103,9 @@
                                     <option value="Waterborne Craft">Waterborne Craft</option>
                                     <option value="Aircraft">Aircraft</option>
                                 </select>
+                            </td>
+                            <td>
+                                <input type="number" class="form-control" name="num_turns[]" min="0">
                             </td>
                             <td>
                                 <select class="form-control" name="distance_unit[]">

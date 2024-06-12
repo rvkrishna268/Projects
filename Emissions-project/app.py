@@ -245,14 +245,14 @@ class Scope3Calculator:
             }
         }
 
-    def calculate_emissions(self, category, vehicle_type, unit, distance, num_passengers=1):
+    def calculate_emissions(self, category, vehicle_type,num_turns, unit, distance, num_passengers=1):
         distance = int(distance)
         if unit == 'km':
             distance = distance / 1.609
 
-        co2 = distance * (self.meta_data[category][vehicle_type]["co2"]) * (1 / 1000) * num_passengers
-        ch4 = distance * (self.meta_data[category][vehicle_type]["ch4"]) * (1 / 1000000) * num_passengers
-        n2o = distance * (self.meta_data[category][vehicle_type]["n2o"]) * (1 / 1000000) * num_passengers
+        co2 = distance * (self.meta_data[category][vehicle_type]["co2"]) * (1 / 1000) * num_passengers * num_turns
+        ch4 = distance * (self.meta_data[category][vehicle_type]["ch4"]) * (1 / 1000000) * num_passengers * num_turns
+        n2o = distance * (self.meta_data[category][vehicle_type]["n2o"]) * (1 / 1000000) * num_passengers * num_turns
         co2e = (co2 * 1) + (ch4 * 28) + (n2o * 265)
         return {
             "CO2": co2,
@@ -363,12 +363,13 @@ def scope3():
                 result = calculator.calculate_emissions(
                     category=each_data.get("category"),
                     vehicle_type=each_data.get('vehicle_type'),
+                    num_turns=each_data.get('num_turns'),
                     unit=each_data.get('unit', 'km'),
                     distance=each_data.get('distance', 0) or 0,
                     num_passengers=each_data.get('num_passengers', 1)
                 )
                 results.append(result)
-
+        
         if not results:
             return jsonify({
                 "message": "No valid results to process",

@@ -182,31 +182,33 @@ function displayResults(data, elementId) {
 
   var resultsHTML = `
         <div class="result-box">
-            <div class="result-label-header">Total CO2e Emissions (Metric Ton)</div>
+            <div class="result-label-header">Total CO2e Emissions (Metric Tons)</div>
             <div class="result-value-large">${parseFloat(data.CO2e).toFixed(
               6
             )}</div>
         </div>
         <div class="result-box result-row">
-            <div class="result-field">
-                <div class="result-label">Carbon Dioxide (Metric Ton):</div>
-                <div class="result-value">${parseFloat(data.CO2).toFixed(
-                  6
-                )}</div>
-            </div>
-            <div class="result-field">
-                <div class="result-label">Methane (Metric Ton):</div>
+        <div class="result-field">
+        <div class="result-label">Carbon Dioxide (Metric Tons):</div>
+        <div class="result-value">${parseFloat(data.CO2).toFixed(6)}</div>
+                </div>
+                <div class="result-field">
+                <div class="result-label">Methane (Metric Tons):</div>
                 <div class="result-value-1">${parseFloat(data.CH4).toFixed(
                   6
                 )}</div>
-            </div>
-            <div class="result-field">
-                <div class="result-label">Nirous Oxide (Metric Ton):</div>
+                </div>
+                <div class="result-field">
+                <div class="result-label">Nirous Oxide 
+                (Metric Tons):</div>
                 <div class="result-value">${parseFloat(data.N2O).toFixed(
                   6
                 )}</div>
-            </div>
-        </div>`;
+                </div>
+                </div>
+                <div class="moreinfo-box">
+                    <p>*Curious what this is equivalent to? Click <a href="https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator">here</a>, select emissions data and enter the CO2e # above</p>
+                </div>`;
 
   resultsDiv.html(resultsHTML);
 }
@@ -222,7 +224,10 @@ function displayOnlyCo2Results(data, elementId) {
               data.metric_ton_co2
             ).toFixed(6)}</div>
         </div>
-    `;
+        
+    <div class="moreinfo-box">
+                    <p>*Curious what this is equivalent to? Click <a href="https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator">here</a>, select emissions data and enter the CO2e # above</p>
+                </div>`;
   resultsDiv.html(resultsHTML);
 }
 function addRow(button) {
@@ -276,14 +281,15 @@ function submitScopeForm(category) {
 
   $("#" + tableBodyId + " tr").each(function () {
     var vehicleType = $(this).find('select[name="vehicle_type[]"]').val();
+    var numTurns=$(this).find('input[name="num_turns[]"]').val();
     var distanceUnit = $(this).find('select[name="distance_unit[]"]').val();
     var distance = $(this).find('input[name="distance[]"]').val();
     var numPassengers = $(this).find('input[name="num_passengers[]"]').val();
 
-
-    if (vehicleType && distanceUnit && distance && numPassengers) {
+    if (vehicleType && distanceUnit && distance) {
       formData.push({
         vehicle_type: vehicleType,
+        num_turns: parseInt(numTurns) || 1,
         unit: distanceUnit,
         distance: parseFloat(distance),
         num_passengers: parseInt(numPassengers) || 1,
@@ -323,7 +329,7 @@ function displayScope3Results(data, elementId) {
   resultsDiv.empty();
 
   var resultsHTML =
-    '<table class="table"><thead><tr><th>Carbon Dioxide (Metric Ton)</th><th>Methane (Metric Ton)</th><th>Nitrous Oxide (Metric Ton)</th><th>CO2e (Metric Ton)</th></tr></thead><tbody>';
+    '<table class="table"><thead><tr><th>Carbon Dioxide (Metric Tons)</th><th>Methane (Metric Tons)</th><th>Nitrous Oxide (Metric Tons)</th><th>CO2e (Metric Tons)</th></tr></thead><tbody>';
 
   data.results.forEach(function (result) {
     resultsHTML += `<tr>
@@ -339,32 +345,35 @@ function displayScope3Results(data, elementId) {
   resultsHTML += `<h3>Total Emissions</h3>
   <div class="total-emissions-container">
   <div class="total-co2e">
-      <div class="total-co2e-header">Total CO2e Emissions (Metric Ton):</div>
+      <div class="total-co2e-header">Total CO2e Emissions (Metric Tons):</div>
       <div class="total-co2e-value" id="total-co2e-value">${parseFloat(
         data.total.CO2e
       ).toFixed(6)}</div>
   </div>
   <div class="individual-emissions">
       <div class="emission-box">
-          <div class="emission-label">Carbon Dioxide (Metric Ton):</div>
+          <div class="emission-label">Carbon Dioxide (Metric Tons):</div>
           <div class="emission-value1" id="co2-emissions-value">${parseFloat(
             data.total.CO2
           ).toFixed(6)}</div>
       </div>
       <div class="emission-box">
-          <div class="emission-label">Methane (Metric Ton):</div>
+          <div class="emission-label">Methane (Metric Tons):</div>
           <div class="emission-value" id="ch4-emissions-value">${parseFloat(
             data.total.CH4
           ).toFixed(6)}</div>
       </div>
       <div class="emission-box">
-          <div class="emission-label">Nitrous Oxide (Metric Ton):</div>
+          <div class="emission-label">Nitrous Oxide (Metric Tons):</div>
           <div class="emission-value1" id="n2o-emissions-value">${parseFloat(
             data.total.N2O
           ).toFixed(6)}</div>
       </div>
   </div>
-</div>`;
+</div>
+<div class="moreinfo-box">
+                    <p>*Curious what this is equivalent to? Click <a href="https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator">here</a>, select emissions data and enter the CO2e # above</p>
+                </div>`;
 
   resultsDiv.html(resultsHTML);
 }

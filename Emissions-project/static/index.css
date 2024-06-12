@@ -40,6 +40,10 @@ h2 {
     color: #333;
 }
 
+.upstream-header{
+    font-size: 26px;
+}
+
 .btn-primary {
     background-color: #0056b3;
     border-color: #004085;
@@ -128,6 +132,13 @@ label {
     padding: 10px;
     margin-bottom: 10px;
     width: 100%;
+}
+
+.moreinfo-box{
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 5px;
+    font-size: 11px;
 }
 
 .result-label-header {
