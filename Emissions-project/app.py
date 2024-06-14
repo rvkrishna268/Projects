@@ -390,5 +390,5 @@ def scope3():
 
 if __name__ == '__main__':
     prod = '--prod' in sys.argv
-    port = 80 if prod else 8080
+    port = 8080
     app.run(debug=True, use_reloader=not prod, port=port)
