@@ -1,123 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-
+  <head>
     <title>Page 2</title>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Emissions Calculators</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='index.css') }}"
+    />
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <div class="header">
-        <h1>Basic GHG Emissions Calculator</h1>
-        <button id="refreshButton" class="btn btn-danger" onclick="window.location.reload();">Clear All</button>
+      <h1>Basic GHG Emissions Calculator</h1>
+      <button
+        id="refreshButton"
+        class="btn btn-danger"
+        onclick="window.location.reload();"
+      >
+        Clear All
+      </button>
     </div>
     <div class="nav">
-        <div class="button-container">
-            <button id="navigateButton1" class="btn btn-primary" onclick="window.location.href='/';">Rig GHG Emissions Calculator</button>
-            <div class="tooltip">Rig Emissions Calculator</div>
-        </div>
-        <div class="button-container">
-            <button id="navigateButton2" class="btn btn-primary" onclick="window.location.href='page2';">Generator GHG Emissions Calculator</button>
-            <div class="tooltip">Generator Emissions Calculator</div>
-        </div>
-        <div class="button-container">
-            <button id="navigateButton3" class="btn btn-primary" onclick="window.location.href='page3';">Mobile Combustion GHG Emissions (Scope 1) Calculator</button>
-            <div class="tooltip">Scope1 and Co2 Emissions Calculator</div>
-        </div>
-        <div class="button-container">
-            <button id="navigateButton4" class="btn btn-primary" onclick="window.location.href='page4';">Transportation and Distribution GHG Emissions Calculator</button>
-            <div class="tooltip">Scope3 Cat 4&9 Emissions Calculator</div>
-        </div>
-        <div class="button-container">
-            <button id="navigateButton5" class="btn btn-primary" onclick="window.location.href='page5';">Business Travel and Employee Commuting GHG Emissions Calculator</button>
-            <div class="tooltip">Scope3 Cat 6&7  Emissions Calculator</div>
-        </div>
+      <div class="button-container">
+        <button
+          id="navigateButton1"
+          class="btn btn-primary"
+          onclick="window.location.href='/';"
+        >
+          Rig GHG Emissions Calculator
+        </button>
+        <div class="tooltip">Rig Emissions Calculator</div>
+      </div>
+      <div class="button-container">
+        <button
+          id="navigateButton2"
+          class="btn btn-primary"
+          onclick="window.location.href='page2';"
+        >
+          Generator GHG Emissions Calculator
+        </button>
+        <div class="tooltip">Generator Emissions Calculator</div>
+      </div>
+      <div class="button-container">
+        <button
+          id="navigateButton3"
+          class="btn btn-primary"
+          onclick="window.location.href='page3';"
+        >
+          Mobile Combustion GHG Emissions (Scope 1) Calculator
+        </button>
+        <div class="tooltip">Scope1 and Co2 Emissions Calculator</div>
+      </div>
+      <div class="button-container">
+        <button
+          id="navigateButton4"
+          class="btn btn-primary"
+          onclick="window.location.href='page4';"
+        >
+          Transportation and Distribution GHG Emissions Calculator
+        </button>
+        <div class="tooltip">Scope3 Cat 4&9 Emissions Calculator</div>
+      </div>
+      <div class="button-container">
+        <button
+          id="navigateButton5"
+          class="btn btn-primary"
+          onclick="window.location.href='page5';"
+        >
+          Business Travel and Employee Commuting GHG Emissions Calculator
+        </button>
+        <div class="tooltip">Scope3 Cat 6&7 Emissions Calculator</div>
+      </div>
     </div>
     <div class="container">
-        <!-- Scope 1 Emissions Calculator Section -->
-        <h2 class="scope1-header">Basic GHG Calculator for Mobile Combustion (Scope1 Emissions)
-        </h2>
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <h3 >Basic GHG Calculator for Mobile Combusition based on Distance</h3>
-                <form id="scope1Form">
-                    <div class="form-group col-sm">
-                        <label for="vehicleType">Select Vehicle Type:</label>
-                        <select class="form-control" id="vehicleType" name="vehicle_type" >
-                            <option value="">Select Type</option>
-                            <option value="Passenger Car">Passenger Car </option>
-                            <option value="Light-Duty Truck">Light-Duty Truck</option>
-                            <option value="Motorcycle">Motorcycle</option>
-                            <option value="Medium- and Heavy-Duty Truck">Medium- and Heavy-Duty Truck</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-sm">
-                        <label for="scope1DistanceUnits">Select Distance Units:</label>
-                        <select class="form-control" id="scope1DistanceUnits" name="unit">
-                            <option value="Km">Km</option>
-                            <option value="Miles">Miles</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-sm">
-                        <label for="scope1DistanceAmount">Enter Distance Amount:</label>
-                        <input type="number" class="form-control" id="scope1DistanceAmount" name="distance" min="0">
-                    </div>
-                    <button type="button" class="btn btn-primary col-sm" onclick="submitScope1Form()">Calculate Emissions</button>
-                </form>
+      <!-- Scope 1 Emissions Calculator Section -->
+      <h2 class="scope1-header">
+        Basic GHG Calculator for Mobile Combustion (Scope1 Emissions)
+      </h2>
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <h3>Basic GHG Calculator for Mobile Combusition based on Distance</h3>
+          <form id="scope1Form">
+            <div class="form-group col-sm">
+              <label for="vehicleType">Select Vehicle Type:</label>
+              <select class="form-control" id="vehicleType" name="vehicle_type">
+                <option value="">Select Type</option>
+                <option value="Passenger Car">Passenger Car</option>
+                <option value="Light-Duty Truck">Light-Duty Truck</option>
+                <option value="Motorcycle">Motorcycle</option>
+                <option value="Medium- and Heavy-Duty Truck">
+                  Medium- and Heavy-Duty Truck
+                </option>
+              </select>
             </div>
-            <div class="col-md-6">
-                <div id="scope1Results" class="mt-3"></div>
+            <div class="form-group col-sm">
+              <label for="scope1DistanceUnits">Select Distance Units:</label>
+              <select class="form-control" id="scope1DistanceUnits" name="unit">
+                <option value="Km">Km</option>
+                <option value="Miles">Miles</option>
+              </select>
             </div>
+            <div class="form-group col-sm">
+              <label for="scope1DistanceAmount">Enter Distance Amount:</label>
+              <input
+                type="number"
+                class="form-control"
+                id="scope1DistanceAmount"
+                name="distance"
+                min="0"
+              />
+            </div>
+            <button
+              type="button"
+              class="btn btn-primary col-sm"
+              onclick="submitScope1Form()"
+            >
+              Calculate Emissions
+            </button>
+          </form>
         </div>
-        <!-- Co2 mobile Emissions Calculator Section -->
-        <div class="row">
-            <div class="col-md-6">
-                <h3>Basic GHG Calculator for Mobile Combusition based on Fuel Consumption</h3>
-                <form id="co2MobForm">
-                    <div class="form-group col-sm">
-                        <label for="fuelType">Select Fuel Type:</label>
-                        <select class="form-control" id="fuelType" name="fuel_type" >
-                            <option value="">Select Type</option>
-                            <option value="Motor Gasoline">Motor Gasoline </option>
-                            <option value="Diesel Fuel">Diesel Fuel</option>
-                            <option value="Liquefied Natural Gas (LNG)">Liquefied Natural Gas (LNG)</option>
-                            <option value="Ethanol (100%)">Ethanol (100%)</option>
-                            <option value="Biodiesel (100%)">Biodiesel (100%)</option>
-                            <option value="Liquefied Petroleum Gases (LPG) (Propane)">Liquefied Petroleum Gases (LPG) (Propane)</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-sm">
-                        <label for="co2MobFuelUnits">Select Fuel Units:</label>
-                        <select class="form-control" id="co2MobFuelUnits" name="unit">
-                            <option value="gallons">Gallons</option>
-                            <option value="liter">Liter</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-sm">
-                        <label for="co2MobFuelAmount">Enter Fuel Amount:</label>
-                        <input type="number" class="form-control" id="co2MobFuelAmount" name="fuel_consumption" min="0">
-                    </div>
-                    <button type="button" class="btn btn-primary col-sm" onclick="submitco2MobForm()">Calculate Emissions</button>
-                </form>
-            </div>
-            <div class="col-md-6">
-                <div id="co2MobResults" class="mt-3"></div>
-            </div>
+        <div class="col-md-6">
+          <div id="scope1Results" class="mt-3"></div>
         </div>
+      </div>
+      <!-- Co2 mobile Emissions Calculator Section -->
+      <div class="row">
+        <div class="col-md-6">
+          <h3>
+            Basic GHG Calculator for Mobile Combusition based on Fuel
+            Consumption
+          </h3>
+          <form id="co2MobForm">
+            <div class="form-group col-sm">
+              <label for="fuelType">Select Fuel Type:</label>
+              <select class="form-control" id="fuelType" name="fuel_type">
+                <option value="">Select Type</option>
+                <option value="Motor Gasoline">Motor Gasoline</option>
+                <option value="Diesel Fuel">Diesel Fuel</option>
+                <option value="Liquefied Natural Gas (LNG)">
+                  Liquefied Natural Gas (LNG)
+                </option>
+                <option value="Ethanol (100%)">Ethanol (100%)</option>
+                <option value="Biodiesel (100%)">Biodiesel (100%)</option>
+                <option value="Liquefied Petroleum Gases (LPG) (Propane)">
+                  Liquefied Petroleum Gases (LPG) (Propane)
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-sm">
+              <label for="co2MobFuelUnits">Select Fuel Units:</label>
+              <select class="form-control" id="co2MobFuelUnits" name="unit">
+                <option value="gallons">Gallons</option>
+                <option value="liter">Liter</option>
+              </select>
+            </div>
+            <div class="form-group col-sm">
+              <label for="co2MobFuelAmount">Enter Fuel Amount:</label>
+              <input
+                type="number"
+                class="form-control"
+                id="co2MobFuelAmount"
+                name="fuel_consumption"
+                min="0"
+              />
+            </div>
+            <div class="co2-emissions-button">
+              <button
+                type="button"
+                class="btn btn-primary col-sm"
+                onclick="submitco2MobForm()"
+              >
+                Calculate Emissions
+              </button>
+              <div class="small_text">
+                *Note the emissions calculations above are for CO2 only
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-6">
+          <div id="co2MobResults" class="mt-3"></div>
+        </div>
+      </div>
     </div>
     <div class="methodology">
-        <h3>Methodology</h3>
-        <textarea id="methodologyTextPage3" class="form-control" rows="5" cols="1" placeholder="*Note: 
-        Emissions from buring fossil fuels directly from Company owned or leased vehicles.
-        CO2e : Carbon dioxide Equivalent
-        CO2: Carbon dioxide
-        CH4 : Methane
-        N2O: Nitrus Oxide
-        ">Emission Factors utilized are from the US EPA's GHG Emission Factors Hub</textarea>
+      <h3>Notes</h3>
+      <div id="methodologyTextPage2">
+        <h5>Methodology</h5>
+        <p class="method-text">
+          Emission Factors utilized are from the US EPA's GHG Emission Factors
+          Hub.
+        </p>
+      </div>
     </div>
     <script src="{{ url_for('static', filename='index.js') }}"></script>
-</body>
+  </body>
 </html>

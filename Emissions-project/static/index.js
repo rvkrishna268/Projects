@@ -486,66 +486,61 @@ function addRowPage5(tableBodyId) {
   });
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  var rigTypeSelect = document.getElementById("rigType");
-  var savingsTypeSelect = document.getElementById("savingsType");
-  var methodologyText = document.getElementById("methodologyText");
+// document.addEventListener("DOMContentLoaded", function () {
+//   var rigTypeSelect = document.getElementById("rigType");
+//   var savingsTypeSelect = document.getElementById("savingsType");
+//   var methodologyText = document.getElementById("methodologyText");
 
-  function updateMethodology() {
-    var rigType = rigTypeSelect.value;
-    var savingsType = savingsTypeSelect.value;
-    var text = "";
+//   function updateMethodology() {
+//     var rigType = rigTypeSelect.value;
+//     var savingsType = savingsTypeSelect.value;
+//     var text = "";
 
-    if (rigType === "Offshore") {
-      text +=
-        "Utilized emission factors from the API 2023 Compendium of Greenhouse Gas Emissions Methodologies for the Natural Gas and Oil Industry. Number of engines and  engines specifications utilized in this calculation are in accordance to the type of rig.";
-    } else if (rigType === "Onshore") {
-      switch (savingsType) {
-        case "Fuel":
-          text +=
-            "This is a simplified method of calculating GHG emissions from rigs by utilizing emission factors for stationary combustion engines based on fuel  (diesel) consumption the US EPA's GHG Emission Factors Hub. An onshore rig will have multiple diesel engines (usually 4). Be sure to add the fuel consumption of all engines on the rig for this calculation.";
-          break;
-        case "Time":
-          text +=
-            "Engine specifications used in this calculation are from the Caterpillar CAT 3512C engine, the most commonly used engine used in onshore rigs. These calculations take into account the fact that onshore rigs have 4 engines, and it conservatively assumes an operating load factor of 75% for each engine.  Emission Factors utilized are for stationary combustion from  the US EPA's GHG Emission Factors Hub.";
-          break;
-      }
-    }
+//     if (rigType === "Offshore") {
+//       text +=
+//         "Utilized emission factors from the API 2023 Compendium of Greenhouse Gas Emissions Methodologies for the Natural Gas and Oil Industry. Number of engines and  engines specifications utilized in this calculation are in accordance to the type of rig.";
+//     } else if (rigType === "Onshore") {
+//       switch (savingsType) {
+//         case "Fuel":
+//           text +=
+//             "This is a simplified method of calculating GHG emissions from rigs by utilizing emission factors for stationary combustion engines based on fuel  (diesel) consumption the US EPA's GHG Emission Factors Hub. An onshore rig will have multiple diesel engines (usually 4). Be sure to add the fuel consumption of all engines on the rig for this calculation.";
+//           break;
+//         case "Time":
+//           text +=
+//             "Engine specifications used in this calculation are from the Caterpillar CAT 3512C engine, the most commonly used engine used in onshore rigs. These calculations take into account the fact that onshore rigs have 4 engines, and it conservatively assumes an operating load factor of 75% for each engine.  Emission Factors utilized are for stationary combustion from  the US EPA's GHG Emission Factors Hub.";
+//           break;
+//       }
+//     }
 
-    methodologyText.value = text;
-  }
-  rigTypeSelect && rigTypeSelect.addEventListener("change", updateMethodology);
-  savingsTypeSelect &&
-    savingsTypeSelect.addEventListener("change", updateMethodology);
-});
+//     methodologyText.value = text;
+//   }
+//   rigTypeSelect && rigTypeSelect.addEventListener("change", updateMethodology);
+//   savingsTypeSelect &&
+//     savingsTypeSelect.addEventListener("change", updateMethodology);
+// });
 
-document.addEventListener("DOMContentLoaded", function () {
-  var vehicleTypeSelect = document.getElementById("vehicleTypepage5");
-  var methodologyText = document.getElementById("methodologyTextPage5");
-  
+// document.addEventListener("DOMContentLoaded", function () {
+//   var vehicleTypeSelect = document.getElementById("vehicleTypepage5");
+//   var methodologyText = document.getElementById("methodologyTextPage5");
 
-  function updateMethodology() {
-    var vehicleType = vehicleTypeSelect.value;
-    var text ="";
+//   function updateMethodology() {
+//     var vehicleType = vehicleTypeSelect.value;
+//     var text = "";
 
-    if (vehicleType === "Passenger Car") {
-      text +=
-        `Emission Factors utilized are from the US EPA's GHG Emission Factors Hub\nAutomobiles used primarily to transport 12 people or less for personal travel, and are less than 8,500 lbs in gross vehicle weight.`;
-    } else if (vehicleType === "Light-Duty Truck") {
-      text +=
-        `Emission Factors utilized are from the US EPA's GHG Emission Factors Hub\nVehicles that primarily transport passengers such as sport utility vehicles (SUVs) and minivans. This category also includes vehicles used for transporting light-weight cargo which are equipped with special features such as four-wheel drive for off-road operation. The gross vehicle weight normally ranges around 8,500 pounds or less.`;
-    } else if (vehicleType === "Intercity Rail") {
-      text +=
-        `Emission Factors utilized are from the US EPA's GHG Emission Factors Hub\nLong-distance rail between major cities.`;
-    }else if (vehicleType === "Commuter Rail") {
-      text +=
-        `Emission Factors utilized are from the US EPA's GHG Emission Factors Hub\nRail service between a central city and adjacent suburbs (also called regional rail or suburban rail).`;
-    } else if (vehicleType === "Transit Rail") {
-      text +=
-        `Emission Factors utilized are from the US EPA's GHG Emission Factors Hub\nRail typically within an urban center, such as subways, elevated railways, metropolitan railways (metro), streetcars, trolley cars, and tramways.`;
-    }
+//     if (vehicleType === "Passenger Car") {
+//       text += `Emission Factors utilized are from the US EPA's GHG Emission Factors Hub\nAutomobiles used primarily to transport 12 people or less for personal travel, and are less than 8,500 lbs in gross vehicle weight.`;
+//     } else if (vehicleType === "Light-Duty Truck") {
+//       text += `Emission Factors utilized are from the US EPA's GHG Emission Factors Hub\nVehicles that primarily transport passengers such as sport utility vehicles (SUVs) and minivans. This category also includes vehicles used for transporting light-weight cargo which are equipped with special features such as four-wheel drive for off-road operation. The gross vehicle weight normally ranges around 8,500 pounds or less.`;
+//     } else if (vehicleType === "Intercity Rail") {
+//       text += `Emission Factors utilized are from the US EPA's GHG Emission Factors Hub\nLong-distance rail between major cities.`;
+//     } else if (vehicleType === "Commuter Rail") {
+//       text += `Emission Factors utilized are from the US EPA's GHG Emission Factors Hub\nRail service between a central city and adjacent suburbs (also called regional rail or suburban rail).`;
+//     } else if (vehicleType === "Transit Rail") {
+//       text += `Emission Factors utilized are from the US EPA's GHG Emission Factors Hub\nRail typically within an urban center, such as subways, elevated railways, metropolitan railways (metro), streetcars, trolley cars, and tramways.`;
+//     }
 
-    methodologyText.value = text;
-  }
-  vehicleTypeSelect && vehicleTypeSelect.addEventListener("change", updateMethodology);
-  });
+//     methodologyText.value = text;
+//   }
+//   vehicleTypeSelect &&
+//     vehicleTypeSelect.addEventListener("change", updateMethodology);
+// });

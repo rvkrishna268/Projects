@@ -119,22 +119,13 @@
       </div>
     </div>
     <div class="methodology">
-      <h3>Methodology</h3>
-      <textarea
-        id="methodologyTextPage2"
-        class="form-control"
-        rows="5"
-        cols="1"
-        placeholder="*Note: 
-        CO2e : Carbon dioxide Equivalent
-        CO2: Carbon dioxide
-        CH4 : Methane
-        N2O: Nitrus Oxide
-        "
-      >
-This is a simplified method of calculating GHG emissions from diesel-powered generators or diesel-powered stationary combustion engines by utilizing emission factors for stationary combustion engines based on fuel (diesel) consumption. Be sure to add the fuel consumption of all generators/engines for the desired time frame (i.e., hour, day, week. month, quarter, year, etc. ) if you have more than one generator/engine
-    </textarea
-      >
+      <h3>Notes</h3>
+      <div id="methodologyTextPage2">
+        <h5>Methodology</h5>
+        <p class="method-text">
+           This is a simplified method of calculating GHG emissions from diesel-powered generators or diesel-powered stationary combustion engines by utilizing emission factors for stationary combustion engines based on fuel (diesel) consumption. Be sure to add the fuel consumption of all generators/engines for the desired time frame (i.e., hour, day, week. month, quarter, year, etc. ) if you have more than one generator/engine.
+        </p>
+      </div>
     </div>
     <script src="{{ url_for('static', filename='index.js') }}"></script>
   </body>
