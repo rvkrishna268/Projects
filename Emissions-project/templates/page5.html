@@ -53,7 +53,7 @@
                     <tbody id="businessTravelTableBody">
                         <tr>
                             <td>
-                                <select class="form-control vehicle-type" name="vehicle_type[]">
+                                <select class="form-control vehicle-type" id="vehicleTypepage5" name="vehicle_type[]">
                                     <option value="">Select Type</option>
                                     <option value="Passenger Car">Passenger Car</option>
                                     <option value="Light-Duty Truck">Light-Duty Truck</option>
@@ -96,12 +96,13 @@
     </div>
     <div class="methodology">
         <h3>Methodology</h3>
-        <textarea class="form-control" rows="5" cols="1" placeholder="*Note: 
+        <textarea id="methodologyTextPage5" class="form-control" rows="5" cols="1" placeholder="*Note: 
         CO2e : Carbon dioxide Equivalent
         CO2: Carbon dioxide
         CH4 : Methane
         N2O: Nitrus Oxide
-        "></textarea>
+        ">						
+    </textarea>
     </div>
     <script src="{{ url_for('static', filename='index.js') }}"></script>
 </body>

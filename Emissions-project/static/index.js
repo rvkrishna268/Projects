@@ -41,7 +41,7 @@ function submitForm() {
       formData[this.name] = $(this).val() || "0"; // Ensure no empty values are sent
     });
 
-  console.log("Sending data:", formData); // Log data being sent
+  // console.log("Sending data:", formData); // Log data being sent
 
   $.ajax({
     url: "/calculate",
@@ -49,7 +49,7 @@ function submitForm() {
     contentType: "application/json",
     data: JSON.stringify(formData),
     success: function (response) {
-      console.log("Received response:", response); // Log received response
+      // console.log("Received response:", response); // Log received response
       // Check if the response contains the emissions data
       if (response && response.CO2e !== undefined && !isNaN(response.CO2e)) {
         displayResults(response, "results");
@@ -76,7 +76,7 @@ function submitGeneratorForm() {
       formData[this.name] = $(this).val() || "0"; // Ensure no empty values are sent
     });
 
-  console.log("Sending data:", formData); // Log data being sent
+  // console.log("Sending data:", formData); // Log data being sent
 
   $.ajax({
     url: "/calculate_generator",
@@ -84,7 +84,7 @@ function submitGeneratorForm() {
     contentType: "application/json",
     data: JSON.stringify(formData),
     success: function (response) {
-      console.log("Received response:", response); // Log received response
+      // console.log("Received response:", response); // Log received response
       // Check if the response contains the emissions data
       if (response && response.CO2e !== undefined && !isNaN(response.CO2e)) {
         displayResults(response, "generatorResults");
@@ -111,7 +111,7 @@ function submitScope1Form() {
       formData[this.name] = $(this).val() || "0"; // Ensure no empty values are sent
     });
 
-  console.log("Sending data:", formData); // Log data being sent
+  // console.log("Sending data:", formData); // Log data being sent
 
   $.ajax({
     url: "/calculate_scope1_emissions",
@@ -119,7 +119,7 @@ function submitScope1Form() {
     contentType: "application/json",
     data: JSON.stringify(formData),
     success: function (response) {
-      console.log("Received response:", response); // Log received response
+      // console.log("Received response:", response); // Log received response
       // Check if the response contains the emissions data
       if (response && response.CO2e !== undefined && !isNaN(response.CO2e)) {
         displayResults(response, "scope1Results");
@@ -146,7 +146,7 @@ function submitco2MobForm() {
       formData[this.name] = $(this).val() || "0"; // Ensure no empty values are sent
     });
 
-  console.log("Sending data:", formData); // Log data being sent
+  // console.log("Sending data:", formData); // Log data being sent
 
   $.ajax({
     url: "/co2_mobile_fuel_amount",
@@ -154,7 +154,7 @@ function submitco2MobForm() {
     contentType: "application/json",
     data: JSON.stringify(formData),
     success: function (response) {
-      console.log("Received response:", response); // Log received response
+      // console.log("Received response:", response); // Log received response
       // Check if the response contains the emissions data
       if (
         response &&
@@ -230,6 +230,7 @@ function displayOnlyCo2Results(data, elementId) {
                 </div>`;
   resultsDiv.html(resultsHTML);
 }
+
 function addRow(button) {
   var row = $(button).closest("tr").clone();
   console.log(row);
@@ -281,7 +282,7 @@ function submitScopeForm(category) {
 
   $("#" + tableBodyId + " tr").each(function () {
     var vehicleType = $(this).find('select[name="vehicle_type[]"]').val();
-    var numTurns=$(this).find('input[name="num_turns[]"]').val();
+    var numTurns = $(this).find('input[name="num_turns[]"]').val();
     var distanceUnit = $(this).find('select[name="distance_unit[]"]').val();
     var distance = $(this).find('input[name="distance[]"]').val();
     var numPassengers = $(this).find('input[name="num_passengers[]"]').val();
@@ -298,7 +299,7 @@ function submitScopeForm(category) {
     }
   });
 
-  console.log("Sending data:", formData);
+  // console.log("Sending data:", formData);
 
   $.ajax({
     url: "/scope3",
@@ -306,7 +307,7 @@ function submitScopeForm(category) {
     contentType: "application/json",
     data: JSON.stringify(formData),
     success: function (response) {
-      console.log("Received response:", response);
+      // console.log("Received response:", response);
       if (response && response.results) {
         displayScope3Results(response, "results");
       } else {
@@ -390,6 +391,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
   });
 });
+
 document.addEventListener("DOMContentLoaded", (event) => {
   const vehicleTypeSelects = document.querySelectorAll(".vehicle-type");
   const numPassengersHeader = document.getElementById("numPassengersHeader");
@@ -483,3 +485,67 @@ function addRowPage5(tableBodyId) {
     }
   });
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  var rigTypeSelect = document.getElementById("rigType");
+  var savingsTypeSelect = document.getElementById("savingsType");
+  var methodologyText = document.getElementById("methodologyText");
+
+  function updateMethodology() {
+    var rigType = rigTypeSelect.value;
+    var savingsType = savingsTypeSelect.value;
+    var text = "";
+
+    if (rigType === "Offshore") {
+      text +=
+        "Utilized emission factors from the API 2023 Compendium of Greenhouse Gas Emissions Methodologies for the Natural Gas and Oil Industry. Number of engines and  engines specifications utilized in this calculation are in accordance to the type of rig.";
+    } else if (rigType === "Onshore") {
+      switch (savingsType) {
+        case "Fuel":
+          text +=
+            "This is a simplified method of calculating GHG emissions from rigs by utilizing emission factors for stationary combustion engines based on fuel  (diesel) consumption the US EPA's GHG Emission Factors Hub. An onshore rig will have multiple diesel engines (usually 4). Be sure to add the fuel consumption of all engines on the rig for this calculation.";
+          break;
+        case "Time":
+          text +=
+            "Engine specifications used in this calculation are from the Caterpillar CAT 3512C engine, the most commonly used engine used in onshore rigs. These calculations take into account the fact that onshore rigs have 4 engines, and it conservatively assumes an operating load factor of 75% for each engine.  Emission Factors utilized are for stationary combustion from  the US EPA's GHG Emission Factors Hub.";
+          break;
+      }
+    }
+
+    methodologyText.value = text;
+  }
+  rigTypeSelect && rigTypeSelect.addEventListener("change", updateMethodology);
+  savingsTypeSelect &&
+    savingsTypeSelect.addEventListener("change", updateMethodology);
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  var vehicleTypeSelect = document.getElementById("vehicleTypepage5");
+  var methodologyText = document.getElementById("methodologyTextPage5");
+  
+
+  function updateMethodology() {
+    var vehicleType = vehicleTypeSelect.value;
+    var text ="";
+
+    if (vehicleType === "Passenger Car") {
+      text +=
+        `Emission Factors utilized are from the US EPA's GHG Emission Factors Hub\nAutomobiles used primarily to transport 12 people or less for personal travel, and are less than 8,500 lbs in gross vehicle weight.`;
+    } else if (vehicleType === "Light-Duty Truck") {
+      text +=
+        `Emission Factors utilized are from the US EPA's GHG Emission Factors Hub\nVehicles that primarily transport passengers such as sport utility vehicles (SUVs) and minivans. This category also includes vehicles used for transporting light-weight cargo which are equipped with special features such as four-wheel drive for off-road operation. The gross vehicle weight normally ranges around 8,500 pounds or less.`;
+    } else if (vehicleType === "Intercity Rail") {
+      text +=
+        `Emission Factors utilized are from the US EPA's GHG Emission Factors Hub\nLong-distance rail between major cities.`;
+    }else if (vehicleType === "Commuter Rail") {
+      text +=
+        `Emission Factors utilized are from the US EPA's GHG Emission Factors Hub\nRail service between a central city and adjacent suburbs (also called regional rail or suburban rail).`;
+    } else if (vehicleType === "Transit Rail") {
+      text +=
+        `Emission Factors utilized are from the US EPA's GHG Emission Factors Hub\nRail typically within an urban center, such as subways, elevated railways, metropolitan railways (metro), streetcars, trolley cars, and tramways.`;
+    }
+
+    methodologyText.value = text;
+  }
+  vehicleTypeSelect && vehicleTypeSelect.addEventListener("change", updateMethodology);
+  });
